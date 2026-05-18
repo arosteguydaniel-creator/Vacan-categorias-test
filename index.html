@@ -109,8 +109,15 @@
             margin-top: 15px; 
             font-weight: bold; 
             font-size: 1.2rem; 
-            color: #2ecc71;
             display: none; 
+        }
+
+        #respuesta.verdadero {
+            color: #2ecc71;
+        }
+
+        #respuesta.falso {
+            color: #e74c3c;
         }
 
         .btn-siguiente { 
@@ -151,46 +158,46 @@
 
 <script>
     const bancoPreguntas = [
-        { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa." },
-        { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas." },
-        { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur)." },
-        { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más." },
-        { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología." },
-        { q: "El Everest es el punto más cercano al espacio", a: "FALSO. Es el volcán Chimborazo en Ecuador." },
-        { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos." },
-        { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común." },
-        { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado." },
-        { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!" },
-        { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible." },
-        { q: "El pulpo tiene tres corazones", a: "VERDADERO. Dos para las branquias y uno para el cuerpo." },
-        { q: "Los pingüinos tienen rodillas", a: "VERDADERO. Están ocultas bajo sus plumas." },
-        { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas." },
-        { q: "Venus es el planeta más caliente del sistema solar", a: "VERDADERO. Por su atmósfera espesa." },
-        { q: "Los conejos son roedores", a: "FALSO. Son lagomorfos." },
-        { q: "Islandia no tiene mosquitos", a: "VERDADERO. Es el único país del mundo así." },
-        { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826." },
-        { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol." },
-        { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros." },
-        { q: "La lengua de una ballena azul pesa más que un elefante", a: "VERDADERO. ¡Es masiva!" },
-        { q: "El ojo de un avestruz es más grande que su cerebro", a: "VERDADERO. Son ojos gigantes." },
-        { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro." },
-        { q: "Las vacas tienen mejores amigos", a: "VERDADERO. Se estresan si las separan." },
-        { q: "Los tiburones no tienen huesos", a: "VERDADERO. Su esqueleto es de cartílago." },
-        { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal." },
-        { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto." },
-        { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares." },
-        { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'." },
-        { q: "Las medusas son inmortales", a: "¡VERDADERO! (Solo la especie Turritopsis dohrnii)." },
-        { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la vida." },
-        { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros." },
-        { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema." },
-        { q: "Las fresas son técnicamente bayas", a: "FALSO. Pero el plátano y la sandía sí lo son." },
-        { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida." },
-        { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa." },
-        { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir." },
-        { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido." },
-        { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro." },
-        { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, promedio para su época." }
+        { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
+        { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
+        { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
+        { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más.", tipo: "verdadero" },
+        { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología.", tipo: "verdadero" },
+        { q: "El Everest es el punto más cercano al espacio", a: "FALSO. Es el volcán Chimborazo en Ecuador.", tipo: "falso" },
+        { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos.", tipo: "verdadero" },
+        { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
+        { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado.", tipo: "verdadero" },
+        { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!", tipo: "verdadero" },
+        { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible.", tipo: "verdadero" },
+        { q: "El pulpo tiene tres corazones", a: "VERDADERO. Dos para las branquias y uno para el cuerpo.", tipo: "verdadero" },
+        { q: "Los pingüinos tienen rodillas", a: "VERDADERO. Están ocultas bajo sus plumas.", tipo: "verdadero" },
+        { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" },
+        { q: "Venus es el planeta más caliente del sistema solar", a: "VERDADERO. Por su atmósfera espesa.", tipo: "verdadero" },
+        { q: "Los conejos son roedores", a: "FALSO. Son lagomorfos.", tipo: "falso" },
+        { q: "Islandia no tiene mosquitos", a: "VERDADERO. Es el único país del mundo así.", tipo: "verdadero" },
+        { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
+        { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol.", tipo: "verdadero" },
+        { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros.", tipo: "falso" },
+        { q: "La lengua de una ballena azul pesa más que un elefante", a: "VERDADERO. ¡Es masiva!", tipo: "verdadero" },
+        { q: "El ojo de un avestruz es más grande que su cerebro", a: "VERDADERO. Son ojos gigantes.", tipo: "verdadero" },
+        { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
+        { q: "Las vacas tienen mejores amigos", a: "VERDADERO. Se estresan si las separan.", tipo: "verdadero" },
+        { q: "Los tiburones no tienen huesos", a: "VERDADERO. Su esqueleto es de cartílago.", tipo: "verdadero" },
+        { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal.", tipo: "verdadero" },
+        { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto.", tipo: "verdadero" },
+        { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
+        { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'.", tipo: "verdadero" },
+        { q: "Las medusas son inmortales", a: "¡VERDADERO! (Solo la especie Turritopsis dohrnii).", tipo: "verdadero" },
+        { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la vida.", tipo: "verdadero" },
+        { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros.", tipo: "verdadero" },
+        { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema.", tipo: "verdadero" },
+        { q: "Las fresas son técnicamente bayas", a: "FALSO. Pero el plátano y la sandía sí lo son.", tipo: "falso" },
+        { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida.", tipo: "falso" },
+        { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa.", tipo: "verdadero" },
+        { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir.", tipo: "verdadero" },
+        { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido.", tipo: "verdadero" },
+        { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro.", tipo: "falso" },
+        { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, promedio para su época.", tipo: "falso" }
     ];
 
     let mazo = [...bancoPreguntas];
@@ -209,6 +216,7 @@
         document.getElementById('texto-pregunta').innerText = mazo[actual].q;
         document.getElementById('contador').innerText = "PREGUNTA #" + num;
         document.getElementById('respuesta').style.display = 'none';
+        document.getElementById('respuesta').className = '';
         document.getElementById('btn-siguiente').style.display = 'none';
         document.getElementById('btn-revelar').style.display = 'flex';
     }
@@ -216,6 +224,7 @@
     function revelar() {
         const respDiv = document.getElementById('respuesta');
         respDiv.innerText = mazo[actual].a;
+        respDiv.className = mazo[actual].tipo;
         respDiv.style.display = 'block';
         document.getElementById('btn-revelar').style.display = 'none';
         document.getElementById('btn-siguiente').style.display = 'block';
