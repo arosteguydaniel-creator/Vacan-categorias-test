@@ -131,6 +131,44 @@
             cursor: pointer;
             display: none;
         }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #pantalla-inicial {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        #pantalla-inicial .tipo-pregunta {
+            background-color: #d65a6d;
+            color: white;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .categoria-btn {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 16px 18px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 320px;
+            cursor: pointer;
+            margin: 10px auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: block;
+        }
+
+        .categoria-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
     </style>
 </head>
 <body>
@@ -139,10 +177,17 @@
 
     <h1>¿QUIÉN ES EL MÁS VACÁN?</h1>
 
-    <div id="contador" class="preg-tag">PREGUNTA #1</div>
+    <div id="pantalla-inicial" class="card">
+        <div class="tipo-pregunta">Elige tu categoría</div>
+        <p id="intro-texto">Comienza el juego con una selección rápida.</p>
+        <button class="categoria-btn" onclick="seleccionarCategoria('todo')">De todo un poco</button>
+        <button class="categoria-btn" onclick="seleccionarCategoria('historia')">Curiosidades de la historia</button>
+    </div>
 
-    <div class="card">
-        <div class="tipo-pregunta">¿VERDADERO O FALSO?</div>
+    <div id="contador" class="preg-tag hidden">PREGUNTA #1</div>
+
+    <div id="preguntas-card" class="card hidden">
+        <div id="categoria-tipo" class="tipo-pregunta">¿VERDADERO O FALSO?</div>
         <p id="texto-pregunta">Cargando...</p>
         
         <button id="btn-revelar" class="btn-revelar" onclick="revelar()">
@@ -157,15 +202,13 @@
     </div>
 
 <script>
-    const bancoPreguntas = [
+    const bancoTodoUnPoco = [
         { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
         { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
         { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
         { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más.", tipo: "verdadero" },
         { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología.", tipo: "verdadero" },
-        { q: "El Everest es el punto más cercano al espacio", a: "FALSO. Es el volcán Chimborazo en Ecuador.", tipo: "falso" },
         { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos.", tipo: "verdadero" },
-        { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
         { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado.", tipo: "verdadero" },
         { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!", tipo: "verdadero" },
         { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible.", tipo: "verdadero" },
@@ -177,29 +220,60 @@
         { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
         { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol.", tipo: "verdadero" },
         { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros.", tipo: "falso" },
-        { q: "La lengua de una ballena azul pesa más que un elefante", a: "VERDADERO. ¡Es masiva!", tipo: "verdadero" },
-        { q: "El ojo de un avestruz es más grande que su cerebro", a: "VERDADERO. Son ojos gigantes.", tipo: "verdadero" },
-        { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
-        { q: "Las vacas tienen mejores amigos", a: "VERDADERO. Se estresan si las separan.", tipo: "verdadero" },
-        { q: "Los tiburones no tienen huesos", a: "VERDADERO. Su esqueleto es de cartílago.", tipo: "verdadero" },
+        { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
         { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal.", tipo: "verdadero" },
         { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto.", tipo: "verdadero" },
-        { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
         { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'.", tipo: "verdadero" },
-        { q: "Las medusas son inmortales", a: "¡VERDADERO! (Solo la especie Turritopsis dohrnii).", tipo: "verdadero" },
-        { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la vida.", tipo: "verdadero" },
         { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros.", tipo: "verdadero" },
         { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema.", tipo: "verdadero" },
         { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida.", tipo: "falso" },
         { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa.", tipo: "verdadero" },
         { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir.", tipo: "verdadero" },
         { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro.", tipo: "falso" },
+        { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido.", tipo: "verdadero" },
         { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, era mala publicidad de sus enemigos.", tipo: "falso" }
     ];
 
-    let mazo = [...bancoPreguntas];
+    const bancoCuriosidadesHistoria = [
+        { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, promedio para su época.", tipo: "falso" },
+        { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
+        { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
+        { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
+        { q: "Los romanos usaban orina para lavar la ropa", a: "VERDADERO. La usaban como detergente por su amoníaco.", tipo: "verdadero" },
+        { q: "La primera computadora electrónica se creó durante la Segunda Guerra Mundial", a: "VERDADERO. Fue un invento militar temprano.", tipo: "verdadero" },
+        { q: "La imprenta fue inventada antes del año 1000", a: "FALSO. Gutenberg la popularizó en 1440.", tipo: "falso" },
+        { q: "El calendario gregoriano reemplazó al juliano en 1582", a: "VERDADERO. Para corregir el desfase solar.", tipo: "verdadero" },
+        { q: "Cristóbal Colón descubrió que la Tierra era redonda", a: "FALSO. Ya se sabía mucho antes de su viaje.", tipo: "falso" },
+        { q: "Los vikingos usaban cascos con cuernos en batalla", a: "FALSO. Eso es un mito moderno.", tipo: "falso" },
+        { q: "La Gran Pirámide de Guiza fue construida por esclavos", a: "FALSO. Era obra de trabajadores especializados.", tipo: "falso" },
+        { q: "El primer papel moneda apareció en China", a: "VERDADERO. Fue en la dinastía Song.", tipo: "verdadero" },
+        { q: "La Asamblea Nacional de Francia se reunió por primera vez en 1789", a: "VERDADERO. Fue el inicio de la Revolución Francesa.", tipo: "verdadero" },
+        { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la historia.", tipo: "verdadero" },
+        { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" }
+    ];
+
+    let mazo = [];
     let actual = 0;
     let num = 1;
+
+    function seleccionarCategoria(categoria) {
+        const pantallaInicial = document.getElementById('pantalla-inicial');
+        pantallaInicial.style.display = 'none';
+        document.getElementById('contador').classList.remove('hidden');
+        document.getElementById('preguntas-card').classList.remove('hidden');
+
+        const tipoLabel = document.getElementById('categoria-tipo');
+        if (categoria === 'historia') {
+            mazo = [...bancoCuriosidadesHistoria];
+            tipoLabel.innerText = 'CURIOSIDADES DE LA HISTORIA';
+        } else {
+            mazo = [...bancoTodoUnPoco];
+            tipoLabel.innerText = 'DE TODO UN POCO';
+        }
+
+        num = 1;
+        sacarPregunta();
+    }
 
     function sacarPregunta() {
         if (mazo.length === 0) {
@@ -232,8 +306,6 @@
         num++;
         sacarPregunta();
     }
-
-    sacarPregunta();
 </script>
 
 </body>
