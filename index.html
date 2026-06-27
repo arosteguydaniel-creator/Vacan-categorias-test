@@ -178,9 +178,8 @@
     <h1>¿QUIÉN ES EL MÁS VACÁN?</h1>
 
     <div id="pantalla-inicial" class="card">
-        <div class="tipo-pregunta">Elige tu categoría</div>
-        <p id="intro-texto">Comienza el juego con una selección rápida.</p>
-        <button class="categoria-btn" onclick="seleccionarCategoria('todo')">De todo un poco</button>
+        <div class="tipo-pregunta">Elige una categoría</div>
+       <button class="categoria-btn" onclick="seleccionarCategoria('todo')">De todo un poco</button>
         <button class="categoria-btn" onclick="seleccionarCategoria('historia')">Curiosidades de la historia</button>
     </div>
 
@@ -203,50 +202,92 @@
 
 <script>
     const bancoTodoUnPoco = [
-        { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
-        { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
-        { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
-        { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más.", tipo: "verdadero" },
-        { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología.", tipo: "verdadero" },
-        { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos.", tipo: "verdadero" },
-        { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado.", tipo: "verdadero" },
-        { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!", tipo: "verdadero" },
-        { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible.", tipo: "verdadero" },
-        { q: "El pulpo tiene tres corazones", a: "VERDADERO. Dos para las branquias y uno para el cuerpo.", tipo: "verdadero" },
-        { q: "Los pingüinos tienen rodillas", a: "VERDADERO. Están ocultas bajo sus plumas.", tipo: "verdadero" },
-        { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" },
-        { q: "Venus es el planeta más caliente del sistema solar", a: "VERDADERO. Por su atmósfera espesa.", tipo: "verdadero" },
-        { q: "Los conejos son roedores", a: "FALSO. Son lagomorfos.", tipo: "falso" },
-        { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
-        { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol.", tipo: "verdadero" },
-        { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros.", tipo: "falso" },
-        { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
-        { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal.", tipo: "verdadero" },
-        { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto.", tipo: "verdadero" },
-        { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'.", tipo: "verdadero" },
-        { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros.", tipo: "verdadero" },
-        { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema.", tipo: "verdadero" },
-        { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida.", tipo: "falso" },
-        { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa.", tipo: "verdadero" },
-        { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir.", tipo: "verdadero" },
-        { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro.", tipo: "falso" },
-        { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido.", tipo: "verdadero" },
-        { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, era mala publicidad de sus enemigos.", tipo: "falso" }
-    ];
+       const bancoCulturaPopYPlaneta = [
+    { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
+    { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
+    { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
+    { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más.", tipo: "verdadero" },
+    { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología.", tipo: "verdadero" },
+    { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos.", tipo: "verdadero" },
+    { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado.", tipo: "verdadero" },
+    { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!", tipo: "verdadero" },
+    { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible.", tipo: "verdadero" },
+    { q: "El pulpo tiene tres corazones", a: "VERDADERO. Dos para las branquias y uno para el cuerpo.", tipo: "verdadero" },
+    { q: "Los pingüinos tienen rodillas", a: "VERDADERO. Están ocultas bajo sus plumas.", tipo: "verdadero" },
+    { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" },
+    { q: "Venus es el planeta más caliente del sistema solar", a: "VERDADERO. Por su atmósfera espesa.", tipo: "verdadero" },
+    { q: "Los conejos son roedores", a: "FALSO. Son lagomorfos.", tipo: "falso" },
+    { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
+    { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol.", tipo: "verdadero" },
+    { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros.", tipo: "falso" },
+    { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
+    { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal.", tipo: "verdadero" },
+    { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto.", tipo: "verdadero" },
+    { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'.", tipo: "verdadero" },
+    { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros.", tipo: "verdadero" },
+    { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema.", tipo: "verdadero" },
+    { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida (los desiertos se miden por falta de lluvia, no por arena).", tipo: "falso" },
+    { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa.", tipo: "verdadero" },
+    { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir.", tipo: "verdadero" },
+    { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro.", tipo: "falso" },
+    { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido.", tipo: "verdadero" },
+    { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, era mala publicidad de sus enemigos.", tipo: "falso" },
+    { q: "El agua líquida puede congelarse y hervir al mismo tiempo", a: "VERDADERO. Ocurre en el 'punto triple' bajo condiciones específicas de presión.", tipo: "verdadero" },
+    { q: "Los flamencos nacen con plumas de color rosa brillante", a: "FALSO. Nacen grises; se vuelven rosas por los camarones que comen.", tipo: "falso" },
+    { q: "Un día en Venus es más largo que un año en Venus", a: "VERDADERO. Tarda más en girar sobre sí mismo que en darle la vuelta al sol.", tipo: "verdadero" },
+    { q: "El monte Everest es el punto más cercano al espacio exterior", a: "FALSO. Es el volcán Chimborazo en Ecuador, debido al ensanchamiento de la Tierra.", tipo: "falso" },
+    { q: "Los plátanos crecen en árboles gigantes", a: "FALSO. La platanera es una hierba gigante, no un árbol.", tipo: "falso" },
+    { q: "Las papas fritas tipo 'French Fries' se inventaron en Bélgica", a: "VERDADERO. A pesar de su nombre en inglés, su origen es belga.", tipo: "verdadero" },
+    { q: "Hay más estrellas en el universo que granos de arena en todas las playas de la Tierra", a: "VERDADERO. El universo es ridículamente masivo.", tipo: "verdadero" },
+    { q: "Los diamantes están hechos de carbón supercomprimido", a: "VERDADERO. Es carbono puro cristalizado bajo presión extrema.", tipo: "verdadero" },
+    { q: "Nintendo se fundó cuando aún existían los samuráis", a: "VERDADERO. Se creó en 1889 haciendo cartas de juego tradicionales.", tipo: "verdadero" },
+    { q: "El océano Atlántico es el más profundo del planeta", a: "FALSO. Es el océano Pacífico (allí está la Fosa de las Marianas).", tipo: "falso" },
+    { q: "Los tiburones existían antes que los árboles", a: "VERDADERO. Los tiburones aparecieron hace 400 millones de años; los árboles, después.", tipo: "verdadero" }
+];
 
     const bancoCuriosidadesHistoria = [
-        { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
-        { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
-        { q: "Los romanos usaban orina para lavar la ropa", a: "VERDADERO. La usaban como detergente por su amoníaco.", tipo: "verdadero" },
-        { q: "La primera computadora electrónica se creó durante la Segunda Guerra Mundial", a: "VERDADERO. Fue un invento militar temprano.", tipo: "verdadero" },
-        { q: "El calendario gregoriano reemplazó al juliano en 1582", a: "VERDADERO. Para corregir el desfase solar.", tipo: "verdadero" },
-        { q: "Cristóbal Colón descubrió que la Tierra era redonda", a: "FALSO. Ya se sabía mucho antes de su viaje.", tipo: "falso" },
-        { q: "Los vikingos usaban cascos con cuernos en batalla", a: "FALSO. Eso es un mito moderno.", tipo: "falso" },
-        { q: "La Gran Pirámide de Guiza fue construida por esclavos", a: "FALSO. Era obra de trabajadores especializados.", tipo: "falso" },
-        { q: "El primer papel moneda (billete) fue creado en China", a: "VERDADERO. Fue en la dinastía Song.", tipo: "verdadero" },
-        { q: "La Asamblea Nacional de Francia se reunió por primera vez en 1789", a: "VERDADERO. Fue el inicio de la Revolución Francesa.", tipo: "verdadero" },
-        { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la historia.", tipo: "verdadero" },
-           ];
+       const bancoArchivosSecretos = [
+    { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
+    { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
+    { q: "Los romanos usaban orina para lavar la ropa", a: "VERDADERO. La usaban como detergente por su amoníaco.", tipo: "verdadero" },
+    { q: "La primera computadora electrónica se creó durante la Segunda Guerra Mundial", a: "VERDADERO. Fue un invento militar temprano.", tipo: "verdadero" },
+    { q: "El calendario gregoriano reemplazó al juliano en 1582", a: "VERDADERO. Para corregir el desfase solar.", tipo: "verdadero" },
+    { q: "Cristóbal Colón descubrió que la Tierra era redonda", a: "FALSO. Ya se sabía mucho antes de su viaje.", tipo: "falso" },
+    { q: "Los vikingos usaban cascos con cuernos en batalla", a: "FALSO. Eso es un mito moderno.", tipo: "falso" },
+    { q: "La Gran Pirámide de Guiza fue construida por esclavos", a: "FALSO. Era obra de trabajadores especializados.", tipo: "falso" },
+    { q: "El primer papel moneda (billete) fue creado en China", a: "VERDADERO. Fue en la dinastía Song.", tipo: "verdadero" },
+    { q: "La Asamblea Nacional de Francia se reunió por primera vez en 1789", a: "VERDADERO. Fue el inicio de la Revolución Francesa.", tipo: "verdadero" },
+    { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la historia.", tipo: "verdadero" },
+    { q: "Cleopatra vivió cronológicamente más cerca de la llegada del hombre a la luna que de la construcción de las pirámides", a: "VERDADERO. Las pirámides ya eran antiquísimas en su época.", tipo: "verdadero" },
+    { q: "Albert Einstein rechazó ser el presidente de Israel", a: "VERDADERO. Se lo ofrecieron en 1952 y dijo que no tenía aptitudes humanas.", tipo: "verdadero" },
+    { q: "La guerra más corta de la historia duró menos de una hora", a: "VERDADERO. La guerra anglo-zanzibari duró exactamente 38 minutos.", tipo: "verdadero" },
+    { q: "Los antiguos griegos se ejercitaban completamente desnudos", a: "VERDADERO. De hecho, la palabra 'gimnasio' significa escuela para desnudarse.", tipo: "verdadero" },
+    { q: "El Titanic fue el primer barco en usar la señal de auxilio S.O.S.", a: "FALSO. Ya se había usado antes, pero el Titanic ayudó a popularizarla.", tipo: "falso" },
+    { q: "Julio César fue emperador de Roma", a: "FALSO. Fue dictador, pero nunca tuvo el título oficial de Emperador (el primero fue Augusto).", tipo: "falso" },
+    { q: "En la antigua Inglaterra, la gente usaba cráneos humanos como copas para beber", a: "VERDADERO. Lo hacían algunos pueblos celtas y de la edad de hielo.", tipo: "verdadero" },
+    { q: "Estados Unidos le compró el territorio de Alaska a Rusia", a: "VERDADERO. Se cerró el trato en 1867 por una ganga.", tipo: "verdadero" },
+    { q: "Las momias egipcias se llegaron a usar como medicina en Europa durante el siglo XVI", a: "VERDADERO. Se molían hasta hacerse polvo creyendo que curaban enfermedades.", tipo: "verdadero" },
+    { q: "El rey Luis XIV de Francia se bañó solo tres veces en toda su vida", a: "VERDADERO. Según los registros de la época, odiaba el agua por consejo médico.", tipo: "verdadero" },
+    { q: "Los primeros autos usaban una palanca de mando parecida a un joystick en vez de volante", a: "VERDADERO. Los volantes circulares llegaron años después.", tipo: "verdadero" },
+    { q: "Atila el Huno murió desangrado por la nariz en su noche de bodas", a: "VERDADERO. Sufrió una hemorragia tras beber demasiado.", tipo: "verdadero" },
+    { q: "La guillotina se usó para ejecutar personas en Francia hasta la década de 1970", a: "VERDADERO. La última ejecución fue en 1977, el mismo año que se estrenó Star Wars.", tipo: "verdadero" },
+    { q: "El Imperio Romano llegó a expandirse por los cinco continentes", a: "FALSO. Solo controló territorios en Europa, Asia y África.", tipo: "falso" },
+    { q: "Los juicios de brujas de Salem terminaron con las acusadas quemadas en la hoguera", a: "FALSO. Fueron colgadas o murieron en prisión; ninguna fue quemada viva.", tipo: "falso" },
+    { q: "Antes del siglo XX, los niños de familias ricas usaban vestidos idénticos a los de las niñas hasta los 6 o 7 años", a: "VERDADERO. Era una costumbre práctica para cambiar pañales y lavar ropa.", tipo: "verdadero" },
+    { q: "La bombilla eléctrica fue inventada 100% por Thomas Edison", a: "FALSO. Edison mejoró y patentó un diseño comercialmente viable, pero se basó en inventos previos.", tipo: "falso" },
+    { q: "La Universidad de Harvard se fundó antes de que existiera el cálculo matemático", a: "VERDADERO. Harvard nació en 1636; Newton y Leibniz desarrollaron el cálculo décadas después.", tipo: "verdadero" },
+    { q: "El presidente de EE.UU. Abraham Lincoln está en el salón de la fama del boxeo", a: "VERDADERO. Antes de la política era un luchador feroz con solo una derrota registrada.", tipo: "verdadero" },
+    { q: "Los gladiadores romanos raramente luchaban a muerte", a: "VERDADERO. Eran atletas caros de entrenar y mantener; morir era el peor negocio.", tipo: "verdadero" },
+    { q: "El Imperio Azteca cayó principalmente porque los españoles tenían armas de fuego avanzadas", a: "FALSO. Cayó por las alianzas de los españoles con otros pueblos indígenas enemigos de los aztecas y por las enfermedades.", tipo: "falso" },
+    { q: "En la Edad Media, la Iglesia Católica llegó a enjuiciar y ejecutar animales en tribunales públicos", a: "VERDADERO. Hubo juicios formales contra cerdos, ratas y langostas por 'crímenes'.", tipo: "verdadero" },
+    { q: "Lord Byron tenía un oso como mascota en su dormitorio universitario", a: "VERDADERO. Como no le dejaban tener perros en Cambridge, llevó un oso para desafiar las reglas.", tipo: "verdadero" },
+    { q: "El telescopio fue inventado por Galileo Galilei", a: "FALSO. Fue inventado en los Países Bajos por Hans Lippershey; Galileo lo mejoró para mirar el cielo.", tipo: "falso" },
+    { q: "La firma de la Declaración de Independencia de EE.UU. no ocurrió el 4 de julio", a: "VERDADERO. Se votó el 2 de julio y la mayoría la firmó en agosto.", tipo: "verdadero" },
+    { q: "Durante la Primera Guerra Mundial, se usaron palomas mensajeras con cámaras fotográficas minúsculas", a: "VERDADERO. Se usaban para espionaje y reconocimiento aéreo.", tipo: "verdadero" },
+    { q: "Wolfgang Amadeus Mozart compuso su primera sinfonía a los 18 años", a: "FALSO. La escribió cuando tenía apenas 8 años.", tipo: "falso" },
+    { q: "El partido de fútbol que causó una guerra real ocurrió entre El Salvador y Honduras", a: "VERDADERO. Ocurrió en 1969 tras las tensiones de las eliminatorias al Mundial.", tipo: "verdadero" },
+    { q: "Los mayas predijeron de forma exacta el fin del mundo para el año 2012", a: "FALSO. Solo terminaba un ciclo de su calendario de cuenta larga, nunca hablaron del fin del mundo.", tipo: "falso" }
+];
 
     let mazo = [];
     let actual = 0;
