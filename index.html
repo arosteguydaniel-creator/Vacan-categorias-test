@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¿Quién es el más vacán?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body { 
-            font-family: 'Arial Black', sans-serif; 
+            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif; 
             /* Fondo equilibrado: Predomina el azul, rosado muy suave */
             background: linear-gradient(-45deg, #74b9ff, #a29bfe, #81ecec, #fab1a0);
             background-size: 400% 400%;
@@ -47,6 +50,7 @@
             margin: 10px 0; 
             color: #1a1a1a;
             text-align: center;
+            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
         }
 
         .preg-tag { 
@@ -74,9 +78,11 @@
             color: white; 
             padding: 5px 15px; 
             border-radius: 15px; 
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             display: inline-block;
             margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         #texto-pregunta { 
@@ -148,26 +154,40 @@
             color: white;
             display: inline-block;
             margin-bottom: 15px;
+            font-size: 1.2rem;
+            padding: 8px 18px;
+        }
+
+        #intro-texto {
+            font-size: 1rem;
+            color: #5f4b3d;
+            margin: 0 0 18px;
         }
 
         .categoria-btn {
-            background-color: #6c5ce7;
+            background: linear-gradient(135deg, #6c5ce7, #8e7dff);
             color: white;
             border: none;
-            border-radius: 14px;
-            padding: 16px 18px;
-            font-size: 1rem;
+            border-radius: 16px;
+            padding: 15px 18px;
+            font-size: 1.02rem;
             width: 100%;
             max-width: 320px;
             cursor: pointer;
             margin: 10px auto;
             transition: transform 0.2s, box-shadow 0.2s;
             display: block;
+            box-shadow: 0 10px 24px rgba(108, 92, 231, 0.25);
+            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
-        .categoria-btn:hover {
+        .categoria-btn:hover,
+        .categoria-btn:focus-visible {
             transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 14px 28px rgba(108, 92, 231, 0.25);
+            outline: none;
         }
     </style>
 </head>
@@ -178,9 +198,11 @@
     <h1>¿QUIÉN ES EL MÁS VACÁN?</h1>
 
     <div id="pantalla-inicial" class="card">
-        <div class="tipo-pregunta">Elige una categoría</div>
-       <button class="categoria-btn" onclick="seleccionarCategoria('todo')">De todo un poco</button>
-        <button class="categoria-btn" onclick="seleccionarCategoria('historia')">Curiosidades de la historia</button>
+        <div class="tipo-pregunta">Elige tu categoría</div>
+        <p id="intro-texto">Comienza el juego con una selección rápida.</p>
+        <button type="button" class="categoria-btn" data-categoria="todo">🧠 De todo un poco</button>
+        <button type="button" class="categoria-btn" data-categoria="historia">📜 Curiosidades de la historia</button>
+        <button type="button" class="categoria-btn" data-categoria="todo">✨ Mixto y divertido</button>
     </div>
 
     <div id="contador" class="preg-tag hidden">PREGUNTA #1</div>
@@ -292,6 +314,15 @@
     let mazo = [];
     let actual = 0;
     let num = 1;
+    let categoriaSeleccionada = null;
+
+    function inicializarBotonesCategorias() {
+        document.querySelectorAll('.categoria-btn').forEach((boton) => {
+            boton.addEventListener('click', () => {
+                seleccionarCategoria(boton.dataset.categoria || 'todo');
+            });
+        });
+    }
 
     function seleccionarCategoria(categoria) {
         const pantallaInicial = document.getElementById('pantalla-inicial');
@@ -302,9 +333,11 @@
         const tipoLabel = document.getElementById('categoria-tipo');
         if (categoria === 'historia') {
             mazo = [...bancoCuriosidadesHistoria];
+            categoriaSeleccionada = 'historia';
             tipoLabel.innerText = 'CURIOSIDADES DE LA HISTORIA';
         } else {
             mazo = [...bancoTodoUnPoco];
+            categoriaSeleccionada = 'todo';
             tipoLabel.innerText = 'DE TODO UN POCO';
         }
 
@@ -314,12 +347,11 @@
 
     function sacarPregunta() {
         if (mazo.length === 0) {
-            document.getElementById('texto-pregunta').innerHTML = "¡Felicidades!<br>Eres el más Vacán 🔥🐮";
-            document.getElementById('btn-revelar').style.display = 'none';
-            document.getElementById('contador').innerText = "¡VICTORIA!";
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            return;
+            mazo = categoriaSeleccionada === 'historia'
+                ? [...bancoCuriosidadesHistoria]
+                : [...bancoTodoUnPoco];
         }
+
         actual = Math.floor(Math.random() * mazo.length);
         document.getElementById('texto-pregunta').innerText = mazo[actual].q;
         document.getElementById('contador').innerText = "PREGUNTA #" + num;
@@ -343,6 +375,8 @@
         num++;
         sacarPregunta();
     }
+
+    document.addEventListener('DOMContentLoaded', inicializarBotonesCategorias);
 </script>
 
 </body>
