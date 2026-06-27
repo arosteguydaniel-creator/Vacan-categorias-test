@@ -200,9 +200,9 @@
     <div id="pantalla-inicial" class="card">
         <div class="tipo-pregunta">Elige tu categoría</div>
         <p id="intro-texto">Comienza el juego con una selección rápida.</p>
-        <button type="button" class="categoria-btn" data-categoria="todo">🧠 De todo un poco</button>
-        <button type="button" class="categoria-btn" data-categoria="historia">📜 Curiosidades de la historia</button>
-        <button type="button" class="categoria-btn" data-categoria="todo">✨ Mixto y divertido</button>
+        <button type="button" class="categoria-btn" data-categoria="todo" onclick="seleccionarCategoria('todo')">🧠 De todo un poco</button>
+        <button type="button" class="categoria-btn" data-categoria="historia" onclick="seleccionarCategoria('historia')">📜 Curiosidades de la historia</button>
+        <button type="button" class="categoria-btn" data-categoria="todo" onclick="seleccionarCategoria('todo')">✨ Mixto y divertido</button>
     </div>
 
     <div id="contador" class="preg-tag hidden">PREGUNTA #1</div>
@@ -224,7 +224,6 @@
 
 <script>
     const bancoTodoUnPoco = [
-       const bancoCulturaPopYPlaneta = [
     { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
     { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
     { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
@@ -268,7 +267,6 @@
 ];
 
     const bancoCuriosidadesHistoria = [
-       const bancoArchivosSecretos = [
     { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
     { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
     { q: "Los romanos usaban orina para lavar la ropa", a: "VERDADERO. La usaban como detergente por su amoníaco.", tipo: "verdadero" },
@@ -376,7 +374,7 @@
         sacarPregunta();
     }
 
-    document.addEventListener('DOMContentLoaded', inicializarBotonesCategorias);
+    inicializarBotonesCategorias();
 </script>
 
 </body>
