@@ -189,6 +189,19 @@
             box-shadow: 0 14px 28px rgba(108, 92, 231, 0.25);
             outline: none;
         }
+
+        .btn-volver {
+            background-color: #ff9f43;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            margin-top: 12px;
+            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
+            font-weight: 600;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -219,6 +232,9 @@
         
         <button id="btn-siguiente" class="btn-siguiente" onclick="siguiente()">
             SIGUIENTE PREGUNTA ➔
+        </button>
+        <button id="btn-volver-categorias" class="btn-volver hidden" onclick="volverACategorias()">
+            🔙 VOLVER A CATEGORÍAS
         </button>
     </div>
 
@@ -357,6 +373,7 @@
         document.getElementById('respuesta').className = '';
         document.getElementById('btn-siguiente').style.display = 'none';
         document.getElementById('btn-revelar').style.display = 'flex';
+        document.getElementById('btn-volver-categorias').classList.remove('hidden');
     }
 
     function revelar() {
@@ -372,6 +389,22 @@
         mazo.splice(actual, 1); 
         num++;
         sacarPregunta();
+    }
+
+    function volverACategorias() {
+        document.getElementById('pantalla-inicial').style.display = 'block';
+        document.getElementById('contador').classList.add('hidden');
+        document.getElementById('preguntas-card').classList.add('hidden');
+        document.getElementById('btn-volver-categorias').classList.add('hidden');
+        document.getElementById('respuesta').style.display = 'none';
+        document.getElementById('respuesta').className = '';
+        document.getElementById('btn-siguiente').style.display = 'none';
+        document.getElementById('btn-revelar').style.display = 'flex';
+        document.getElementById('texto-pregunta').innerText = 'Cargando...';
+        mazo = [];
+        actual = 0;
+        num = 1;
+        categoriaSeleccionada = null;
     }
 
     inicializarBotonesCategorias();
