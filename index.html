@@ -212,10 +212,9 @@
 
     <div id="pantalla-inicial" class="card">
         <div class="tipo-pregunta">Elige tu categoría</div>
-        <p id="intro-texto">Comienza el juego con una selección rápida.</p>
         <button type="button" class="categoria-btn" data-categoria="todo" onclick="seleccionarCategoria('todo')">🧠 De todo un poco</button>
         <button type="button" class="categoria-btn" data-categoria="historia" onclick="seleccionarCategoria('historia')">📜 Curiosidades de la historia</button>
-        <button type="button" class="categoria-btn" data-categoria="todo" onclick="seleccionarCategoria('todo')">✨ Mixto y divertido</button>
+        <button type="button" class="categoria-btn" data-categoria="ciencia" onclick="seleccionarCategoria('ciencia')">🔬 Ciencia y tecnología</button>
     </div>
 
     <div id="contador" class="preg-tag hidden">PREGUNTA #1</div>
@@ -325,6 +324,49 @@
     { q: "Los mayas predijeron de forma exacta el fin del mundo para el año 2012", a: "FALSO. Solo terminaba un ciclo de su calendario de cuenta larga, nunca hablaron del fin del mundo.", tipo: "falso" }
 ];
 
+    const bancoCienciaYTecnologia = [
+    { q: "Los humanos usan solo el 10% de su cerebro", a: "FALSO. Usamos prácticamente todo el cerebro, en diferentes momentos.", tipo: "falso" },
+    { q: "El agua caliente puede congelarse más rápido que el agua fría", a: "VERDADERO. Se llama efecto Mpemba.", tipo: "verdadero" },
+    { q: "Los árboles se comunican entre sí a través de sus raíces", a: "VERDADERO. Intercambian nutrientes y señales por hongos.", tipo: "verdadero" },
+    { q: "La sangre humana es azul dentro del cuerpo", a: "FALSO. Siempre es roja; solo cambia el tono de oxigenación.", tipo: "falso" },
+    { q: "El ADN humano estirado mediría unos 2 metros por célula", a: "VERDADERO. Son aproximadamente 1.8 a 2 metros.", tipo: "verdadero" },
+    { q: "Los relámpagos nunca caen dos veces en el mismo lugar", a: "FALSO. El Empire State recibe cientos de rayos al año.", tipo: "falso" },
+    { q: "El cerebro humano genera suficiente electricidad para encender una bombilla", a: "VERDADERO. Produce unos 20 watts de potencia.", tipo: "verdadero" },
+    { q: "Las plantas pueden morir si les hablas demasiado fuerte", a: "FALSO. De hecho, el CO₂ del aliento las estimula.", tipo: "falso" },
+    { q: "Los huesos son más fuertes que el hormigón por peso", a: "VERDADERO. La relación resistencia/peso supera al cemento.", tipo: "verdadero" },
+    { q: "Un caracol puede dormir hasta tres años seguidos", a: "VERDADERO. Entra en letargo si no hay humedad.", tipo: "verdadero" },
+    { q: "Los flamencos son rosados por naturaleza desde que nacen", a: "FALSO. Nacen blancos; el color viene de su dieta.", tipo: "falso" },
+    { q: "El hielo flota porque el agua sólida es menos densa que la líquida", a: "VERDADERO. Es una propiedad única del agua.", tipo: "verdadero" },
+    { q: "Los tiburones son los únicos peces que pueden parpadear", a: "VERDADERO. Tienen un párpado nictitante.", tipo: "verdadero" },
+    { q: "La Tierra es perfectamente esférica", a: "FALSO. Es un geoide achatado en los polos.", tipo: "falso" },
+    { q: "Los bebés nacen con más huesos que los adultos", a: "VERDADERO. Nacen con ~270 y de adultos quedan 206.", tipo: "verdadero" },
+    { q: "Las vacunas pueden causar la enfermedad que previenen", a: "FALSO. Las vacunas de virus inactivados no pueden infectar.", tipo: "falso" },
+    { q: "El estómago produce un ácido capaz de disolver el zinc", a: "VERDADERO. El ácido clorhídrico es extremadamente potente.", tipo: "verdadero" },
+    { q: "La luna llena afecta el comportamiento humano", a: "FALSO. Estudios científicos no han encontrado evidencia.", tipo: "falso" },
+    { q: "Las abejas pueden reconocer rostros humanos", a: "VERDADERO. Aprenden a diferenciar caras para identificar flores.", tipo: "verdadero" },
+    { q: "El oxígeno es inflamable", a: "FALSO. El oxígeno alimenta el fuego pero no arde por sí solo.", tipo: "falso" },
+    { q: "El número de neuronas en el cerebro es similar al de estrellas en la Vía Láctea", a: "VERDADERO. Ambos rondan los 100 mil millones.", tipo: "verdadero" },
+    { q: "Las plantas carnívoras pueden digerir ratones pequeños", a: "VERDADERO. Algunas Nepenthes han capturado vertebrados pequeños.", tipo: "verdadero" },
+    { q: "El cuerpo humano tiene más bacterias que células humanas", a: "VERDADERO. Se estima una proporción de ~1:1, antes se creía 10:1.", tipo: "verdadero" },
+    { q: "El sonido puede viajar por el vacío del espacio", a: "FALSO. Necesita un medio material para propagarse.", tipo: "falso" },
+    { q: "La tos puede superar los 150 km/h", a: "VERDADERO. El aire sale a gran velocidad para expulsar partículas.", tipo: "verdadero" },
+    { q: "Los delfines duermen con un ojo abierto", a: "VERDADERO. Solo descansan la mitad del cerebro a la vez.", tipo: "verdadero" },
+    { q: "El cuerpo humano brilla levemente en la oscuridad", a: "VERDADERO. Emite bioluminiscencia muy débil, invisible al ojo.", tipo: "verdadero" },
+    { q: "La velocidad de la luz es la misma en todos los materiales", a: "FALSO. Solo en el vacío es máxima; se frena en otros medios.", tipo: "falso" },
+    { q: "Los gatos siempre caen de pie gracias a un órgano especial", a: "VERDADERO. Es el reflejo de derechopostura, controlado por el oído interno.", tipo: "verdadero" },
+    { q: "Las plantas sienten dolor cuando las cortan", a: "FALSO. No tienen sistema nervioso para procesar el dolor.", tipo: "falso" },
+    { q: "El corazón humano puede latir fuera del cuerpo por sí solo", a: "VERDADERO. Tiene su propio sistema eléctrico autónomo.", tipo: "verdadero" },
+    { q: "Los peces tienen memoria de solo 3 segundos", a: "FALSO. Pueden recordar cosas por meses.", tipo: "falso" },
+    { q: "La lengua humana tiene zonas específicas para cada sabor", a: "FALSO. Los receptores están distribuidos por toda la lengua.", tipo: "falso" },
+    { q: "Los pingüinos emperadores pueden aguantar la respiración más de 20 minutos", a: "VERDADERO. Son campeones de apnea entre las aves.", tipo: "verdadero" },
+    { q: "El agua pura no conduce la electricidad", a: "VERDADERO. Solo la conducen las impurezas y sales disueltas.", tipo: "verdadero" },
+    { q: "Los astronautas crecen unos centímetros en el espacio", a: "VERDADERO. Sin gravedad, la columna se estira.", tipo: "verdadero" },
+    { q: "Las estrellas que vemos en el cielo existen actualmente", a: "FALSO. Vemos su luz del pasado; algunas ya no existen.", tipo: "falso" },
+    { q: "El ámbar puede conservar ADN de dinosaurios como en Jurassic Park", a: "FALSO. El ADN se degrada; no sobrevive millones de años.", tipo: "falso" },
+    { q: "El Sol tardará unos 5 mil millones de años en agotarse", a: "VERDADERO. Es una estrella de vida media.", tipo: "verdadero" },
+    { q: "Las arañas son insectos", a: "FALSO. Son arácnidos; tienen 8 patas, no 6.", tipo: "falso" }
+];
+
     let mazo = [];
     let actual = 0;
     let num = 1;
@@ -349,6 +391,10 @@
             mazo = [...bancoCuriosidadesHistoria];
             categoriaSeleccionada = 'historia';
             tipoLabel.innerText = 'CURIOSIDADES DE LA HISTORIA';
+        } else if (categoria === 'ciencia') {
+            mazo = [...bancoCienciaYTecnologia];
+            categoriaSeleccionada = 'ciencia';
+            tipoLabel.innerText = 'CIENCIA Y TECNOLOGÍA';
         } else {
             mazo = [...bancoTodoUnPoco];
             categoriaSeleccionada = 'todo';
@@ -363,7 +409,9 @@
         if (mazo.length === 0) {
             mazo = categoriaSeleccionada === 'historia'
                 ? [...bancoCuriosidadesHistoria]
-                : [...bancoTodoUnPoco];
+                : categoriaSeleccionada === 'ciencia'
+                    ? [...bancoCienciaYTecnologia]
+                    : [...bancoTodoUnPoco];
         }
 
         actual = Math.floor(Math.random() * mazo.length);
