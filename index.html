@@ -214,7 +214,7 @@
         <div class="tipo-pregunta">Elige tu categoría</div>
         <button type="button" class="categoria-btn" data-categoria="historia" onclick="seleccionarCategoria('historia')">📜 Curiosidades de la historia</button>
         <button type="button" class="categoria-btn" data-categoria="ciencia" onclick="seleccionarCategoria('ciencia')">🔬 Ciencia y tecnología</button>
-        <button type="button" class="categoria-btn" data-categoria="todo" onclick="seleccionarCategoria('todo')">🧠 De todo un poco</button>
+       <button type="button" class="categoria-btn" data-categoria="arte" onclick="seleccionarCategoria('arte')">🎨 Arte y cultura</button>
     </div>
 
     <div id="contador" class="preg-tag hidden">PREGUNTA #1</div>
@@ -238,49 +238,48 @@
     </div>
 
 <script>
-    const bancoTodoUnPoco = [
-    { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
-    { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
-    { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
-    { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más.", tipo: "verdadero" },
-    { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología.", tipo: "verdadero" },
-    { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos.", tipo: "verdadero" },
-    { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado.", tipo: "verdadero" },
-    { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!", tipo: "verdadero" },
-    { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible.", tipo: "verdadero" },
-    { q: "El pulpo tiene tres corazones", a: "VERDADERO. Dos para las branquias y uno para el cuerpo.", tipo: "verdadero" },
-    { q: "Los pingüinos tienen rodillas", a: "VERDADERO. Están ocultas bajo sus plumas.", tipo: "verdadero" },
-    { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" },
-    { q: "Venus es el planeta más caliente del sistema solar", a: "VERDADERO. Por su atmósfera espesa.", tipo: "verdadero" },
-    { q: "Los conejos son roedores", a: "FALSO. Son lagomorfos.", tipo: "falso" },
-    { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
-    { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol.", tipo: "verdadero" },
-    { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros.", tipo: "falso" },
-    { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
-    { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal.", tipo: "verdadero" },
-    { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto.", tipo: "verdadero" },
-    { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'.", tipo: "verdadero" },
-    { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros.", tipo: "verdadero" },
-    { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema.", tipo: "verdadero" },
-    { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida (los desiertos se miden por falta de lluvia, no por arena).", tipo: "falso" },
-    { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa.", tipo: "verdadero" },
-    { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir.", tipo: "verdadero" },
-    { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro.", tipo: "falso" },
-    { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido.", tipo: "verdadero" },
-    { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, era mala publicidad de sus enemigos.", tipo: "falso" },
-    { q: "El agua líquida puede congelarse y hervir al mismo tiempo", a: "VERDADERO. Ocurre en el 'punto triple' bajo condiciones específicas de presión.", tipo: "verdadero" },
-    { q: "Los flamencos nacen con plumas de color rosa brillante", a: "FALSO. Nacen grises; se vuelven rosas por los camarones que comen.", tipo: "falso" },
-    { q: "Un día en Venus es más largo que un año en Venus", a: "VERDADERO. Tarda más en girar sobre sí mismo que en darle la vuelta al sol.", tipo: "verdadero" },
-    { q: "El monte Everest es el punto más cercano al espacio exterior", a: "FALSO. Es el volcán Chimborazo en Ecuador, debido al ensanchamiento de la Tierra.", tipo: "falso" },
-    { q: "Los plátanos crecen en árboles gigantes", a: "FALSO. La platanera es una hierba gigante, no un árbol.", tipo: "falso" },
-    { q: "Las papas fritas tipo 'French Fries' se inventaron en Bélgica", a: "VERDADERO. A pesar de su nombre en inglés, su origen es belga.", tipo: "verdadero" },
-    { q: "Hay más estrellas en el universo que granos de arena en todas las playas de la Tierra", a: "VERDADERO. El universo es ridículamente masivo.", tipo: "verdadero" },
-    { q: "Los diamantes están hechos de carbón supercomprimido", a: "VERDADERO. Es carbono puro cristalizado bajo presión extrema.", tipo: "verdadero" },
-    { q: "Nintendo se fundó cuando aún existían los samuráis", a: "VERDADERO. Se creó en 1889 haciendo cartas de juego tradicionales.", tipo: "verdadero" },
-    { q: "El océano Atlántico es el más profundo del planeta", a: "FALSO. Es el océano Pacífico (allí está la Fosa de las Marianas).", tipo: "falso" },
-    { q: "Los tiburones existían antes que los árboles", a: "VERDADERO. Los tiburones aparecieron hace 400 millones de años; los árboles, después.", tipo: "verdadero" }
+       const bancoArteYCultura = [
+    { q: "Vincent van Gogh vendió solo una pintura en toda su vida", a: "VERDADERO. Recién fue reconocido después de muerto.", tipo: "verdadero" },
+    { q: "La Mona Lisa fue robada del Museo del Louvre en 1911", a: "VERDADERO. Un empleado del museo la escondió bajo su abrigo.", tipo: "verdadero" },
+    { q: "Beethoven estaba completamente sordo cuando compuso su Novena Sinfonía", a: "VERDADERO. Dirigió su estreno sin poder escucharla.", tipo: "verdadero" },
+    { q: "Mozart nunca escribió una ópera", a: "FALSO. Escribió varias, como 'La Flauta Mágica'.", tipo: "falso" },
+    { q: "El techo de la Capilla Sixtina fue pintado por Leonardo da Vinci", a: "FALSO. Lo pintó Miguel Ángel.", tipo: "falso" },
+    { q: "Frida Kahlo pintó tantos autorretratos porque pasó mucho tiempo postrada en cama", a: "VERDADERO. Tras un grave accidente de tranvía.", tipo: "verdadero" },
+    { q: "William Shakespeare inventó cientos de palabras que hoy se usan en inglés", a: "VERDADERO. Se le atribuyen cerca de 1700 términos nuevos.", tipo: "verdadero" },
+    { q: "Pablo Picasso fue interrogado como sospechoso del robo de la Mona Lisa", a: "VERDADERO. Ocurrió en 1911, aunque no tenía nada que ver.", tipo: "verdadero" },
+    { q: "El sonido único del violín Stradivarius se debe a una madera especial traída de Asia", a: "FALSO. Usaba madera europea local; el secreto real sigue sin resolverse.", tipo: "falso" },
+    { q: "'Don Quijote' es considerada la primera novela moderna", a: "VERDADERO. Escrita por Miguel de Cervantes en 1605.", tipo: "verdadero" },
+    { q: "El ballet 'El lago de los cisnes' fue un fracaso en su estreno", a: "VERDADERO. Se estrenó en 1877 y no gustó al público.", tipo: "verdadero" },
+    { q: "Salvador Dalí diseñó el logo de una famosa marca de caramelos", a: "VERDADERO. Diseñó el logo de Chupa Chups en 1969.", tipo: "verdadero" },
+    { q: "La Torre Eiffel iba a ser desmontada tras 20 años", a: "VERDADERO. Se salvó porque sirvió como antena de radio.", tipo: "verdadero" },
+    { q: "La Mona Lisa no tiene cejas ni pestañas", a: "VERDADERO. Se cree que se perdieron o nunca se pintaron.", tipo: "verdadero" },
+    { q: "Miguel Ángel tardó más de 20 años en pintar el techo de la Capilla Sixtina", a: "FALSO. Le tomó unos 4 años, entre 1508 y 1512.", tipo: "falso" },
+    { q: "Gabriel García Márquez ganó el Premio Nobel de Literatura", a: "VERDADERO. Lo recibió en 1982.", tipo: "verdadero" },
+    { q: "Pablo Neruda ganó el Premio Nobel de Literatura", a: "VERDADERO. Lo recibió en 1971.", tipo: "verdadero" },
+    { q: "El cuadro 'El grito' fue pintado por Salvador Dalí", a: "FALSO. Lo pintó el noruego Edvard Munch.", tipo: "falso" },
+    { q: "Todos los músicos de una orquesta tocan de pie durante toda la sinfonía", a: "FALSO. Permanecen sentados, salvo el director.", tipo: "falso" },
+    { q: "El arquitecto Antoni Gaudí murió atropellado por un tranvía", a: "VERDADERO. Ocurrió en Barcelona en 1926.", tipo: "verdadero" },
+    { q: "'El Cascanueces' de Tchaikovsky se estrena tradicionalmente en Navidad", a: "VERDADERO. Es un clásico de la temporada navideña.", tipo: "verdadero" },
+    { q: "Miguel Ángel esculpió el David usando un bloque de mármol que otros habían descartado", a: "VERDADERO. Le llamaban 'el Gigante'.", tipo: "verdadero" },
+    { q: "'El cantante de jazz' es considerada la primera película sonora exitosa", a: "VERDADERO. Se estrenó en 1927.", tipo: "verdadero" },
+    { q: "El tango nació en la región del Río de la Plata", a: "VERDADERO. Entre Argentina y Uruguay.", tipo: "verdadero" },
+    { q: "Andy Warhol pintaba principalmente paisajes naturales", a: "FALSO. Es famoso por el arte pop, como las latas de sopa Campbell.", tipo: "falso" },
+    { q: "Frida Kahlo y Diego Rivera estuvieron casados dos veces", a: "VERDADERO. Se divorciaron y volvieron a casarse un año después.", tipo: "verdadero" },
+    { q: "El escritor Jorge Luis Borges se quedó ciego en las últimas décadas de su vida", a: "VERDADERO. Perdió la vista de forma progresiva.", tipo: "verdadero" },
+    { q: "Todas las óperas duran menos de una hora", a: "FALSO. Algunas de Wagner superan las 4 o 5 horas.", tipo: "falso" },
+    { q: "El Museo del Prado se encuentra en Barcelona", a: "FALSO. Está en Madrid.", tipo: "falso" },
+    { q: "Isabel Allende escribió 'La casa de los espíritus'", a: "VERDADERO. Es una de sus novelas más famosas.", tipo: "verdadero" },
+    { q: "El Coliseo Romano se usaba exclusivamente para peleas de gladiadores", a: "FALSO. También había ejecuciones, teatro y hasta batallas navales simuladas.", tipo: "falso" },
+    { q: "La escultura 'El pensador' de Rodin originalmente representaba a Dante", a: "VERDADERO. Formaba parte de 'La puerta del infierno'.", tipo: "verdadero" },
+    { q: "Está históricamente comprobado que Salieri asesinó a Mozart", a: "FALSO. Es un mito popularizado por la película 'Amadeus'.", tipo: "falso" },
+    { q: "La técnica del fresco consiste en pintar sobre yeso húmedo", a: "VERDADERO. Por eso hay que pintar rápido antes de que seque.", tipo: "verdadero" },
+    { q: "Pablo Neruda también trabajó como diplomático", a: "VERDADERO. Fue cónsul de Chile en varios países.", tipo: "verdadero" },
+    { q: "Claude Monet le dio nombre al movimiento impresionista con uno de sus cuadros", a: "VERDADERO. Gracias a 'Impresión, sol naciente'.", tipo: "verdadero" },
+    { q: "El Cristo Redentor de Río de Janeiro está hecho íntegramente de piedra", a: "FALSO. Es principalmente hormigón armado revestido en piedra jabón.", tipo: "falso" },
+    { q: "'La Bella y la Bestia' fue la primera película animada nominada al Óscar a Mejor Película", a: "VERDADERO. Ocurrió en 1992.", tipo: "verdadero" },
+    { q: "Franz Kafka pidió que quemaran todas sus obras tras su muerte", a: "VERDADERO. Su amigo Max Brod desobedeció y las publicó.", tipo: "verdadero" },
+    { q: "Diego Velázquez trabajó como pintor de la corte del rey de España", a: "VERDADERO. Sirvió a Felipe IV.", tipo: "verdadero" }
 ];
-
     const bancoCuriosidadesHistoria = [
     { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
     { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
@@ -395,23 +394,22 @@
             mazo = [...bancoCienciaYTecnologia];
             categoriaSeleccionada = 'ciencia';
             tipoLabel.innerText = 'CIENCIA Y TECNOLOGÍA';
-        } else {
-            mazo = [...bancoTodoUnPoco];
-            categoriaSeleccionada = 'todo';
-            tipoLabel.innerText = 'DE TODO UN POCO';
+               } else {
+            mazo = [...bancoArteYCultura];
+            categoriaSeleccionada = 'arte';
+            tipoLabel.innerText = 'ARTE Y CULTURA';
         }
-
         num = 1;
         sacarPregunta();
     }
 
     function sacarPregunta() {
         if (mazo.length === 0) {
-            mazo = categoriaSeleccionada === 'historia'
-                ? [...bancoCuriosidadesHistoria]
-                : categoriaSeleccionada === 'ciencia'
-                    ? [...bancoCienciaYTecnologia]
-                    : [...bancoTodoUnPoco];
+                   mazo = categoriaSeleccionada === 'historia'
+            ? [...bancoCuriosidadesHistoria]
+            : categoriaSeleccionada === 'ciencia'
+                ? [...bancoCienciaYTecnologia]
+                : [...bancoArteYCultura];
         }
 
         actual = Math.floor(Math.random() * mazo.length);
