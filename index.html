@@ -189,6 +189,19 @@
             box-shadow: 0 14px 28px rgba(108, 92, 231, 0.25);
             outline: none;
         }
+
+        .btn-volver {
+            background-color: #ff9f43;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            margin-top: 12px;
+            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
+            font-weight: 600;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -199,10 +212,9 @@
 
     <div id="pantalla-inicial" class="card">
         <div class="tipo-pregunta">Elige tu categoría</div>
-        <p id="intro-texto">Comienza el juego con una selección rápida.</p>
-        <button type="button" class="categoria-btn" data-categoria="todo">🧠 De todo un poco</button>
-        <button type="button" class="categoria-btn" data-categoria="historia">📜 Curiosidades de la historia</button>
-        <button type="button" class="categoria-btn" data-categoria="todo">✨ Mixto y divertido</button>
+        <button type="button" class="categoria-btn" data-categoria="historia" onclick="seleccionarCategoria('historia')">📜 Curiosidades de la historia</button>
+        <button type="button" class="categoria-btn" data-categoria="ciencia" onclick="seleccionarCategoria('ciencia')">🔬 Ciencia y tecnología</button>
+        <button type="button" class="categoria-btn" data-categoria="arte" onclick="seleccionarCategoria('arte')">🎨 Arte y cultura</button>
     </div>
 
     <div id="contador" class="preg-tag hidden">PREGUNTA #1</div>
@@ -220,58 +232,140 @@
         <button id="btn-siguiente" class="btn-siguiente" onclick="siguiente()">
             SIGUIENTE PREGUNTA ➔
         </button>
+        <button id="btn-volver-categorias" class="btn-volver hidden" onclick="volverACategorias()">
+            🔙 VOLVER A CATEGORÍAS
+        </button>
     </div>
 
 <script>
-    const bancoTodoUnPoco = [
-        { q: "El sonido viaja más rápido en el agua que en el aire", a: "¡VERDADERO! El agua es más densa.", tipo: "verdadero" },
-        { q: "Las jirafas tienen cuerdas vocales", a: "FALSO. Son prácticamente mudas.", tipo: "falso" },
-        { q: "Chile es el país más largo del mundo", a: "VERDADERO. (De norte a sur).", tipo: "verdadero" },
-        { q: "Un rayo es más caliente que la superficie del sol", a: "VERDADERO. Hasta 5 veces más.", tipo: "verdadero" },
-        { q: "Los humanos comparten el 50% de su ADN con un plátano", a: "¡VERDADERO! Es pura biología.", tipo: "verdadero" },
-        { q: "Las hormigas nunca duermen", a: "VERDADERO. Toman pequeñas siestas de segundos.", tipo: "verdadero" },
-        { q: "Los elefantes son los únicos animales que no pueden saltar", a: "VERDADERO. Pesan demasiado.", tipo: "verdadero" },
-        { q: "El corazón de una ballena azul es del tamaño de un auto", a: "VERDADERO. ¡Es enorme!", tipo: "verdadero" },
-        { q: "La miel nunca se echa a perder", a: "VERDADERO. Han hallado miel de 3000 años comestible.", tipo: "verdadero" },
-        { q: "El pulpo tiene tres corazones", a: "VERDADERO. Dos para las branquias y uno para el cuerpo.", tipo: "verdadero" },
-        { q: "Los pingüinos tienen rodillas", a: "VERDADERO. Están ocultas bajo sus plumas.", tipo: "verdadero" },
-        { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" },
-        { q: "Venus es el planeta más caliente del sistema solar", a: "VERDADERO. Por su atmósfera espesa.", tipo: "verdadero" },
-        { q: "Los conejos son roedores", a: "FALSO. Son lagomorfos.", tipo: "falso" },
-        { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
-        { q: "Un año en Mercurio dura solo 88 días", a: "VERDADERO. Gira muy rápido al sol.", tipo: "verdadero" },
-        { q: "Los perros solo ven en blanco y negro", a: "FALSO. Ven colores, pero menos que nosotros.", tipo: "falso" },
-        { q: "Los gatos tienen 32 músculos en cada oreja", a: "VERDADERO. Las mueven como radares.", tipo: "verdadero" },
-        { q: "La Torre Eiffel crece en verano", a: "VERDADERO. Por la expansión del metal.", tipo: "verdadero" },
-        { q: "Mónaco es más pequeño que el Central Park de NY", a: "VERDADERO. Es un país diminuto.", tipo: "verdadero" },
-        { q: "El nombre de Google viene de un número matemático", a: "VERDADERO. Viene de 'Googol'.", tipo: "verdadero" },
-        { q: "Australia es más ancha que la Luna", a: "VERDADERO. Por unos 600 kilómetros.", tipo: "verdadero" },
-        { q: "El Sol representa el 99% de la masa del sistema solar", a: "VERDADERO. Es casi todo el sistema.", tipo: "verdadero" },
-        { q: "El desierto del Sahara es el más grande del mundo", a: "FALSO. Es la Antártida.", tipo: "falso" },
-        { q: "Los caballitos de mar macho dan a luz", a: "VERDADERO. Llevan los huevos en su bolsa.", tipo: "verdadero" },
-        { q: "Las huellas dactilares de los koalas son como las humanas", a: "VERDADERO. Son casi imposibles de distinguir.", tipo: "verdadero" },
-        { q: "La Coca-Cola originalmente era verde", a: "FALSO. Siempre fue de color oscuro.", tipo: "falso" },
-        { q: "Se puede escuchar el silencio en el espacio", a: "VERDADERO. No hay aire para mover el sonido.", tipo: "verdadero" },
-        { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, era mala publicidad de sus enemigos.", tipo: "falso" }
-    ];
+    const bancoArteYCultura = [
+    { q: "Vincent van Gogh vendió solo una pintura en toda su vida", a: "VERDADERO. Recién fue reconocido después de muerto.", tipo: "verdadero" },
+    { q: "La Mona Lisa fue robada del Museo del Louvre en 1911", a: "VERDADERO. Un empleado del museo la escondió bajo su abrigo.", tipo: "verdadero" },
+    { q: "Beethoven estaba completamente sordo cuando compuso su Novena Sinfonía", a: "VERDADERO. Dirigió su estreno sin poder escucharla.", tipo: "verdadero" },
+    { q: "Mozart nunca escribió una ópera", a: "FALSO. Escribió varias, como 'La Flauta Mágica'.", tipo: "falso" },
+    { q: "El techo de la Capilla Sixtina fue pintado por Leonardo da Vinci", a: "FALSO. Lo pintó Miguel Ángel.", tipo: "falso" },
+    { q: "Frida Kahlo pintó tantos autorretratos porque pasó mucho tiempo postrada en cama", a: "VERDADERO. Tras un grave accidente de tranvía.", tipo: "verdadero" },
+    { q: "William Shakespeare inventó cientos de palabras que hoy se usan en inglés", a: "VERDADERO. Se le atribuyen cerca de 1700 términos nuevos.", tipo: "verdadero" },
+    { q: "Pablo Picasso fue interrogado como sospechoso del robo de la Mona Lisa", a: "VERDADERO. Ocurrió en 1911, aunque no tenía nada que ver.", tipo: "verdadero" },
+    { q: "El sonido único del violín Stradivarius se debe a una madera especial traída de Asia", a: "FALSO. Usaba madera europea local; el secreto real sigue sin resolverse.", tipo: "falso" },
+    { q: "'Don Quijote' es considerada la primera novela moderna", a: "VERDADERO. Escrita por Miguel de Cervantes en 1605.", tipo: "verdadero" },
+    { q: "El ballet 'El lago de los cisnes' fue un fracaso en su estreno", a: "VERDADERO. Se estrenó en 1877 y no gustó al público.", tipo: "verdadero" },
+    { q: "Salvador Dalí diseñó el logo de una famosa marca de caramelos", a: "VERDADERO. Diseñó el logo de Chupa Chups en 1969.", tipo: "verdadero" },
+    { q: "La Torre Eiffel iba a ser desmontada tras 20 años", a: "VERDADERO. Se salvó porque sirvió como antena de radio.", tipo: "verdadero" },
+    { q: "La Mona Lisa no tiene cejas ni pestañas", a: "VERDADERO. Se cree que se perdieron o nunca se pintaron.", tipo: "verdadero" },
+    { q: "Miguel Ángel tardó más de 20 años en pintar el techo de la Capilla Sixtina", a: "FALSO. Le tomó unos 4 años, entre 1508 y 1512.", tipo: "falso" },
+    { q: "Gabriel García Márquez ganó el Premio Nobel de Literatura", a: "VERDADERO. Lo recibió en 1982.", tipo: "verdadero" },
+    { q: "Pablo Neruda ganó el Premio Nobel de Literatura", a: "VERDADERO. Lo recibió en 1971.", tipo: "verdadero" },
+    { q: "El cuadro 'El grito' fue pintado por Salvador Dalí", a: "FALSO. Lo pintó el noruego Edvard Munch.", tipo: "falso" },
+    { q: "Todos los músicos de una orquesta tocan de pie durante toda la sinfonía", a: "FALSO. Permanecen sentados, salvo el director.", tipo: "falso" },
+    { q: "El arquitecto Antoni Gaudí murió atropellado por un tranvía", a: "VERDADERO. Ocurrió en Barcelona en 1926.", tipo: "verdadero" },
+    { q: "'El Cascanueces' de Tchaikovsky se estrena tradicionalmente en Navidad", a: "VERDADERO. Es un clásico de la temporada navideña.", tipo: "verdadero" },
+    { q: "Miguel Ángel esculpió el David usando un bloque de mármol que otros habían descartado", a: "VERDADERO. Le llamaban 'el Gigante'.", tipo: "verdadero" },
+    { q: "'El cantante de jazz' es considerada la primera película sonora exitosa", a: "VERDADERO. Se estrenó en 1927.", tipo: "verdadero" },
+    { q: "El tango nació en la región del Río de la Plata", a: "VERDADERO. Entre Argentina y Uruguay.", tipo: "verdadero" },
+    { q: "Andy Warhol pintaba principalmente paisajes naturales", a: "FALSO. Es famoso por el arte pop, como las latas de sopa Campbell.", tipo: "falso" },
+    { q: "Frida Kahlo y Diego Rivera estuvieron casados dos veces", a: "VERDADERO. Se divorciaron y volvieron a casarse un año después.", tipo: "verdadero" },
+    { q: "El escritor Jorge Luis Borges se quedó ciego en las últimas décadas de su vida", a: "VERDADERO. Perdió la vista de forma progresiva.", tipo: "verdadero" },
+    { q: "Todas las óperas duran menos de una hora", a: "FALSO. Algunas de Wagner superan las 4 o 5 horas.", tipo: "falso" },
+    { q: "El Museo del Prado se encuentra en Barcelona", a: "FALSO. Está en Madrid.", tipo: "falso" },
+    { q: "Isabel Allende escribió 'La casa de los espíritus'", a: "VERDADERO. Es una de sus novelas más famosas.", tipo: "verdadero" },
+    { q: "El Coliseo Romano se usaba exclusivamente para peleas de gladiadores", a: "FALSO. También había ejecuciones, teatro y hasta batallas navales simuladas.", tipo: "falso" },
+    { q: "La escultura 'El pensador' de Rodin originalmente representaba a Dante", a: "VERDADERO. Formaba parte de 'La puerta del infierno'.", tipo: "verdadero" },
+    { q: "Está históricamente comprobado que Salieri asesinó a Mozart", a: "FALSO. Es un mito popularizado por la película 'Amadeus'.", tipo: "falso" },
+    { q: "La técnica del fresco consiste en pintar sobre yeso húmedo", a: "VERDADERO. Por eso hay que pintar rápido antes de que seque.", tipo: "verdadero" },
+    { q: "Pablo Neruda también trabajó como diplomático", a: "VERDADERO. Fue cónsul de Chile en varios países.", tipo: "verdadero" },
+    { q: "Claude Monet le dio nombre al movimiento impresionista con uno de sus cuadros", a: "VERDADERO. Gracias a 'Impresión, sol naciente'.", tipo: "verdadero" },
+    { q: "El Cristo Redentor de Río de Janeiro está hecho íntegramente de piedra", a: "FALSO. Es principalmente hormigón armado revestido en piedra jabón.", tipo: "falso" },
+    { q: "'La Bella y la Bestia' fue la primera película animada nominada al Óscar a Mejor Película", a: "VERDADERO. Ocurrió en 1992.", tipo: "verdadero" },
+    { q: "Franz Kafka pidió que quemaran todas sus obras tras su muerte", a: "VERDADERO. Su amigo Max Brod desobedeció y las publicó.", tipo: "verdadero" },
+    { q: "Diego Velázquez trabajó como pintor de la corte del rey de España", a: "VERDADERO. Sirvió a Felipe IV.", tipo: "verdadero" }
+];
 
     const bancoCuriosidadesHistoria = [
-        { q: "Napoleón era extremadamente bajito", a: "FALSO. Medía 1.68m, promedio para su época.", tipo: "falso" },
-        { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
-        { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
-        { q: "El encendedor se inventó antes que los fósforos", a: "VERDADERO. El encendedor se inventó en 1823 y los fósforos en 1826.", tipo: "verdadero" },
-        { q: "Los romanos usaban orina para lavar la ropa", a: "VERDADERO. La usaban como detergente por su amoníaco.", tipo: "verdadero" },
-        { q: "La primera computadora electrónica se creó durante la Segunda Guerra Mundial", a: "VERDADERO. Fue un invento militar temprano.", tipo: "verdadero" },
-        { q: "La imprenta fue inventada antes del año 1000", a: "FALSO. Gutenberg la popularizó en 1440.", tipo: "falso" },
-        { q: "El calendario gregoriano reemplazó al juliano en 1582", a: "VERDADERO. Para corregir el desfase solar.", tipo: "verdadero" },
-        { q: "Cristóbal Colón descubrió que la Tierra era redonda", a: "FALSO. Ya se sabía mucho antes de su viaje.", tipo: "falso" },
-        { q: "Los vikingos usaban cascos con cuernos en batalla", a: "FALSO. Eso es un mito moderno.", tipo: "falso" },
-        { q: "La Gran Pirámide de Guiza fue construida por esclavos", a: "FALSO. Era obra de trabajadores especializados.", tipo: "falso" },
-        { q: "El primer papel moneda apareció en China", a: "VERDADERO. Fue en la dinastía Song.", tipo: "verdadero" },
-        { q: "La Asamblea Nacional de Francia se reunió por primera vez en 1789", a: "VERDADERO. Fue el inicio de la Revolución Francesa.", tipo: "verdadero" },
-        { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la historia.", tipo: "verdadero" },
-        { q: "El teclado QWERTY fue diseñado para escribir más rápido", a: "FALSO. Fue para no trabar las máquinas viejas.", tipo: "falso" }
-    ];
+    { q: "El chocolate era usado como moneda por los aztecas", a: "VERDADERO. El cacao valía oro.", tipo: "verdadero" },
+    { q: "La Gran Muralla China es visible desde la Luna", a: "FALSO. Es un mito muy común.", tipo: "falso" },
+    { q: "Los romanos usaban orina para lavar la ropa", a: "VERDADERO. La usaban como detergente por su amoníaco.", tipo: "verdadero" },
+    { q: "La primera computadora electrónica se creó durante la Segunda Guerra Mundial", a: "VERDADERO. Fue un invento militar temprano.", tipo: "verdadero" },
+    { q: "El calendario gregoriano reemplazó al juliano en 1582", a: "VERDADERO. Para corregir el desfase solar.", tipo: "verdadero" },
+    { q: "Cristóbal Colón descubrió que la Tierra era redonda", a: "FALSO. Ya se sabía mucho antes de su viaje.", tipo: "falso" },
+    { q: "Los vikingos usaban cascos con cuernos en batalla", a: "FALSO. Eso es un mito moderno.", tipo: "falso" },
+    { q: "La Gran Pirámide de Guiza fue construida por esclavos", a: "FALSO. Era obra de trabajadores especializados.", tipo: "falso" },
+    { q: "El primer papel moneda (billete) fue creado en China", a: "VERDADERO. Fue en la dinastía Song.", tipo: "verdadero" },
+    { q: "La Asamblea Nacional de Francia se reunió por primera vez en 1789", a: "VERDADERO. Fue el inicio de la Revolución Francesa.", tipo: "verdadero" },
+    { q: "El algodón de azúcar fue inventado por un dentista", a: "VERDADERO. Ironías de la historia.", tipo: "verdadero" },
+    { q: "Cleopatra vivió cronológicamente más cerca de la llegada del hombre a la luna que de la construcción de las pirámides", a: "VERDADERO. Las pirámides ya eran antiquísimas en su época.", tipo: "verdadero" },
+    { q: "Albert Einstein rechazó ser el presidente de Israel", a: "VERDADERO. Se lo ofrecieron en 1952 y dijo que no tenía aptitudes humanas.", tipo: "verdadero" },
+    { q: "La guerra más corta de la historia duró menos de una hora", a: "VERDADERO. La guerra anglo-zanzibari duró exactamente 38 minutos.", tipo: "verdadero" },
+    { q: "Los antiguos griegos se ejercitaban completamente desnudos", a: "VERDADERO. De hecho, la palabra 'gimnasio' significa escuela para desnudarse.", tipo: "verdadero" },
+    { q: "El Titanic fue el primer barco en usar la señal de auxilio S.O.S.", a: "FALSO. Ya se había usado antes, pero el Titanic ayudó a popularizarla.", tipo: "falso" },
+    { q: "Julio César fue emperador de Roma", a: "FALSO. Fue dictador, pero nunca tuvo el título oficial de Emperador (el primero fue Augusto).", tipo: "falso" },
+    { q: "En la antigua Inglaterra, la gente usaba cráneos humanos como copas para beber", a: "VERDADERO. Lo hacían algunos pueblos celtas y de la edad de hielo.", tipo: "verdadero" },
+    { q: "Estados Unidos le compró el territorio de Alaska a Rusia", a: "VERDADERO. Se cerró el trato en 1867 por una ganga.", tipo: "verdadero" },
+    { q: "Las momias egipcias se llegaron a usar como medicina en Europa durante el siglo XVI", a: "VERDADERO. Se molían hasta hacerse polvo creyendo que curaban enfermedades.", tipo: "verdadero" },
+    { q: "El rey Luis XIV de Francia se bañó solo tres veces en toda su vida", a: "VERDADERO. Según los registros de la época, odiaba el agua por consejo médico.", tipo: "verdadero" },
+    { q: "Los primeros autos usaban una palanca de mando parecida a un joystick en vez de volante", a: "VERDADERO. Los volantes circulares llegaron años después.", tipo: "verdadero" },
+    { q: "Atila el Huno murió desangrado por la nariz en su noche de bodas", a: "VERDADERO. Sufrió una hemorragia tras beber demasiado.", tipo: "verdadero" },
+    { q: "La guillotina se usó para ejecutar personas en Francia hasta la década de 1970", a: "VERDADERO. La última ejecución fue en 1977, el mismo año que se estrenó Star Wars.", tipo: "verdadero" },
+    { q: "El Imperio Romano llegó a expandirse por los cinco continentes", a: "FALSO. Solo controló territorios en Europa, Asia y África.", tipo: "falso" },
+    { q: "Los juicios de brujas de Salem terminaron con las acusadas quemadas en la hoguera", a: "FALSO. Fueron colgadas o murieron en prisión; ninguna fue quemada viva.", tipo: "falso" },
+    { q: "Antes del siglo XX, los niños de familias ricas usaban vestidos idénticos a los de las niñas hasta los 6 o 7 años", a: "VERDADERO. Era una costumbre práctica para cambiar pañales y lavar ropa.", tipo: "verdadero" },
+    { q: "La bombilla eléctrica fue inventada 100% por Thomas Edison", a: "FALSO. Edison mejoró y patentó un diseño comercialmente viable, pero se basó en inventos previos.", tipo: "falso" },
+    { q: "La Universidad de Harvard se fundó antes de que existiera el cálculo matemático", a: "VERDADERO. Harvard nació en 1636; Newton y Leibniz desarrollaron el cálculo décadas después.", tipo: "verdadero" },
+    { q: "El presidente de EE.UU. Abraham Lincoln está en el salón de la fama del boxeo", a: "VERDADERO. Antes de la política era un luchador feroz con solo una derrota registrada.", tipo: "verdadero" },
+    { q: "Los gladiadores romanos raramente luchaban a muerte", a: "VERDADERO. Eran atletas caros de entrenar y mantener; morir era el peor negocio.", tipo: "verdadero" },
+    { q: "El Imperio Azteca cayó principalmente porque los españoles tenían armas de fuego avanzadas", a: "FALSO. Cayó por las alianzas de los españoles con otros pueblos indígenas enemigos de los aztecas y por las enfermedades.", tipo: "falso" },
+    { q: "En la Edad Media, la Iglesia Católica llegó a enjuiciar y ejecutar animales en tribunales públicos", a: "VERDADERO. Hubo juicios formales contra cerdos, ratas y langostas por 'crímenes'.", tipo: "verdadero" },
+    { q: "Lord Byron tenía un oso como mascota en su dormitorio universitario", a: "VERDADERO. Como no le dejaban tener perros en Cambridge, llevó un oso para desafiar las reglas.", tipo: "verdadero" },
+    { q: "El telescopio fue inventado por Galileo Galilei", a: "FALSO. Fue inventado en los Países Bajos por Hans Lippershey; Galileo lo mejoró para mirar el cielo.", tipo: "falso" },
+    { q: "La firma de la Declaración de Independencia de EE.UU. no ocurrió el 4 de julio", a: "VERDADERO. Se votó el 2 de julio y la mayoría la firmó en agosto.", tipo: "verdadero" },
+    { q: "Durante la Primera Guerra Mundial, se usaron palomas mensajeras con cámaras fotográficas minúsculas", a: "VERDADERO. Se usaban para espionaje y reconocimiento aéreo.", tipo: "verdadero" },
+    { q: "Wolfgang Amadeus Mozart compuso su primera sinfonía a los 18 años", a: "FALSO. La escribió cuando tenía apenas 8 años.", tipo: "falso" },
+    { q: "El partido de fútbol que causó una guerra real ocurrió entre El Salvador y Honduras", a: "VERDADERO. Ocurrió en 1969 tras las tensiones de las eliminatorias al Mundial.", tipo: "verdadero" },
+    { q: "Los mayas predijeron de forma exacta el fin del mundo para el año 2012", a: "FALSO. Solo terminaba un ciclo de su calendario de cuenta larga, nunca hablaron del fin del mundo.", tipo: "falso" }
+];
+
+    const bancoCienciaYTecnologia = [
+    { q: "Los humanos usan solo el 10% de su cerebro", a: "FALSO. Usamos prácticamente todo el cerebro, en diferentes momentos.", tipo: "falso" },
+    { q: "El agua caliente puede congelarse más rápido que el agua fría", a: "VERDADERO. Se llama efecto Mpemba.", tipo: "verdadero" },
+    { q: "Los árboles se comunican entre sí a través de sus raíces", a: "VERDADERO. Intercambian nutrientes y señales por hongos.", tipo: "verdadero" },
+    { q: "La sangre humana es azul dentro del cuerpo", a: "FALSO. Siempre es roja; solo cambia el tono de oxigenación.", tipo: "falso" },
+    { q: "El ADN humano estirado mediría unos 2 metros por célula", a: "VERDADERO. Son aproximadamente 1.8 a 2 metros.", tipo: "verdadero" },
+    { q: "Los relámpagos nunca caen dos veces en el mismo lugar", a: "FALSO. El Empire State recibe cientos de rayos al año.", tipo: "falso" },
+    { q: "El cerebro humano genera suficiente electricidad para encender una bombilla", a: "VERDADERO. Produce unos 20 watts de potencia.", tipo: "verdadero" },
+    { q: "Las plantas pueden morir si les hablas demasiado fuerte", a: "FALSO. De hecho, el CO₂ del aliento las estimula.", tipo: "falso" },
+    { q: "Los huesos son más fuertes que el hormigón por peso", a: "VERDADERO. La relación resistencia/peso supera al cemento.", tipo: "verdadero" },
+    { q: "Un caracol puede dormir hasta tres años seguidos", a: "VERDADERO. Entra en letargo si no hay humedad.", tipo: "verdadero" },
+    { q: "Los flamencos son rosados por naturaleza desde que nacen", a: "FALSO. Nacen blancos; el color viene de su dieta.", tipo: "falso" },
+    { q: "El hielo flota porque el agua sólida es menos densa que la líquida", a: "VERDADERO. Es una propiedad única del agua.", tipo: "verdadero" },
+    { q: "Los tiburones son los únicos peces que pueden parpadear", a: "VERDADERO. Tienen un párpado nictitante.", tipo: "verdadero" },
+    { q: "La Tierra es perfectamente esférica", a: "FALSO. Es un geoide achatado en los polos.", tipo: "falso" },
+    { q: "Los bebés nacen con más huesos que los adultos", a: "VERDADERO. Nacen con ~270 y de adultos quedan 206.", tipo: "verdadero" },
+    { q: "Las vacunas pueden causar la enfermedad que previenen", a: "FALSO. Las vacunas de virus inactivados no pueden infectar.", tipo: "falso" },
+    { q: "El estómago produce un ácido capaz de disolver el zinc", a: "VERDADERO. El ácido clorhídrico es extremadamente potente.", tipo: "verdadero" },
+    { q: "La luna llena afecta el comportamiento humano", a: "FALSO. Estudios científicos no han encontrado evidencia.", tipo: "falso" },
+    { q: "Las abejas pueden reconocer rostros humanos", a: "VERDADERO. Aprenden a diferenciar caras para identificar flores.", tipo: "verdadero" },
+    { q: "El oxígeno es inflamable", a: "FALSO. El oxígeno alimenta el fuego pero no arde por sí solo.", tipo: "falso" },
+    { q: "El número de neuronas en el cerebro es similar al de estrellas en la Vía Láctea", a: "VERDADERO. Ambos rondan los 100 mil millones.", tipo: "verdadero" },
+    { q: "Las plantas carnívoras pueden digerir ratones pequeños", a: "VERDADERO. Algunas Nepenthes han capturado vertebrados pequeños.", tipo: "verdadero" },
+    { q: "El cuerpo humano tiene más bacterias que células humanas", a: "VERDADERO. Se estima una proporción de ~1:1, antes se creía 10:1.", tipo: "verdadero" },
+    { q: "El sonido puede viajar por el vacío del espacio", a: "FALSO. Necesita un medio material para propagarse.", tipo: "falso" },
+    { q: "La tos puede superar los 150 km/h", a: "VERDADERO. El aire sale a gran velocidad para expulsar partículas.", tipo: "verdadero" },
+    { q: "Los delfines duermen con un ojo abierto", a: "VERDADERO. Solo descansan la mitad del cerebro a la vez.", tipo: "verdadero" },
+    { q: "El cuerpo humano brilla levemente en la oscuridad", a: "VERDADERO. Emite bioluminiscencia muy débil, invisible al ojo.", tipo: "verdadero" },
+    { q: "La velocidad de la luz es la misma en todos los materiales", a: "FALSO. Solo en el vacío es máxima; se frena en otros medios.", tipo: "falso" },
+    { q: "Los gatos siempre caen de pie gracias a un órgano especial", a: "VERDADERO. Es el reflejo de derechopostura, controlado por el oído interno.", tipo: "verdadero" },
+    { q: "Las plantas sienten dolor cuando las cortan", a: "FALSO. No tienen sistema nervioso para procesar el dolor.", tipo: "falso" },
+    { q: "El corazón humano puede latir fuera del cuerpo por sí solo", a: "VERDADERO. Tiene su propio sistema eléctrico autónomo.", tipo: "verdadero" },
+    { q: "Los peces tienen memoria de solo 3 segundos", a: "FALSO. Pueden recordar cosas por meses.", tipo: "falso" },
+    { q: "La lengua humana tiene zonas específicas para cada sabor", a: "FALSO. Los receptores están distribuidos por toda la lengua.", tipo: "falso" },
+    { q: "Los pingüinos emperadores pueden aguantar la respiración más de 20 minutos", a: "VERDADERO. Son campeones de apnea entre las aves.", tipo: "verdadero" },
+    { q: "El agua pura no conduce la electricidad", a: "VERDADERO. Solo la conducen las impurezas y sales disueltas.", tipo: "verdadero" },
+    { q: "Los astronautas crecen unos centímetros en el espacio", a: "VERDADERO. Sin gravedad, la columna se estira.", tipo: "verdadero" },
+    { q: "Las estrellas que vemos en el cielo existen actualmente", a: "FALSO. Vemos su luz del pasado; algunas ya no existen.", tipo: "falso" },
+    { q: "El ámbar puede conservar ADN de dinosaurios como en Jurassic Park", a: "FALSO. El ADN se degrada; no sobrevive millones de años.", tipo: "falso" },
+    { q: "El Sol tardará unos 5 mil millones de años en agotarse", a: "VERDADERO. Es una estrella de vida media.", tipo: "verdadero" },
+    { q: "Las arañas son insectos", a: "FALSO. Son arácnidos; tienen 8 patas, no 6.", tipo: "falso" }
+];
 
     let mazo = [];
     let actual = 0;
@@ -281,7 +375,7 @@
     function inicializarBotonesCategorias() {
         document.querySelectorAll('.categoria-btn').forEach((boton) => {
             boton.addEventListener('click', () => {
-                seleccionarCategoria(boton.dataset.categoria || 'todo');
+                seleccionarCategoria(boton.dataset.categoria || 'arte');
             });
         });
     }
@@ -297,10 +391,14 @@
             mazo = [...bancoCuriosidadesHistoria];
             categoriaSeleccionada = 'historia';
             tipoLabel.innerText = 'CURIOSIDADES DE LA HISTORIA';
+        } else if (categoria === 'ciencia') {
+            mazo = [...bancoCienciaYTecnologia];
+            categoriaSeleccionada = 'ciencia';
+            tipoLabel.innerText = 'CIENCIA Y TECNOLOGÍA';
         } else {
-            mazo = [...bancoTodoUnPoco];
-            categoriaSeleccionada = 'todo';
-            tipoLabel.innerText = 'DE TODO UN POCO';
+            mazo = [...bancoArteYCultura];
+            categoriaSeleccionada = 'arte';
+            tipoLabel.innerText = 'ARTE Y CULTURA';
         }
 
         num = 1;
@@ -311,7 +409,9 @@
         if (mazo.length === 0) {
             mazo = categoriaSeleccionada === 'historia'
                 ? [...bancoCuriosidadesHistoria]
-                : [...bancoTodoUnPoco];
+                : categoriaSeleccionada === 'ciencia'
+                    ? [...bancoCienciaYTecnologia]
+                    : [...bancoArteYCultura];
         }
 
         actual = Math.floor(Math.random() * mazo.length);
@@ -321,6 +421,7 @@
         document.getElementById('respuesta').className = '';
         document.getElementById('btn-siguiente').style.display = 'none';
         document.getElementById('btn-revelar').style.display = 'flex';
+        document.getElementById('btn-volver-categorias').classList.remove('hidden');
     }
 
     function revelar() {
@@ -338,7 +439,23 @@
         sacarPregunta();
     }
 
-    document.addEventListener('DOMContentLoaded', inicializarBotonesCategorias);
+    function volverACategorias() {
+        document.getElementById('pantalla-inicial').style.display = 'block';
+        document.getElementById('contador').classList.add('hidden');
+        document.getElementById('preguntas-card').classList.add('hidden');
+        document.getElementById('btn-volver-categorias').classList.add('hidden');
+        document.getElementById('respuesta').style.display = 'none';
+        document.getElementById('respuesta').className = '';
+        document.getElementById('btn-siguiente').style.display = 'none';
+        document.getElementById('btn-revelar').style.display = 'flex';
+        document.getElementById('texto-pregunta').innerText = 'Cargando...';
+        mazo = [];
+        actual = 0;
+        num = 1;
+        categoriaSeleccionada = null;
+    }
+
+    inicializarBotonesCategorias();
 </script>
 
 </body>
