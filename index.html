@@ -9,132 +9,129 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { 
-            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif; 
-            /* Fondo equilibrado: Predomina el azul, rosado muy suave */
-            background: linear-gradient(-45deg, #74b9ff, #a29bfe, #81ecec, #fab1a0);
-            background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
-            display: flex; 
+        :root {
+            --ink: #121212;
+            --yellow: #feda17;
+            --blue: #418abd;
+            --green: #6cb743;
+            --pink: #e36a7c;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
+            background: linear-gradient(180deg, var(--pink) 0%, #c88d61 45%, #82bf40 100%);
+            display: flex;
             flex-direction: column;
-            align-items: center; 
-            padding: 20px;
+            align-items: center;
+            padding: 22px 16px 34px;
             margin: 0;
             min-height: 100vh;
+            color: var(--ink);
         }
 
-        /* Animación del movimiento del fondo */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .logo-img {
+            width: min(310px, 80vw);
+            display: block;
+            margin: 0 auto 12px;
         }
 
-        /* La vaquita con efecto de flotar */
-        .vaca-img { 
-            width: 150px; 
-            display: block; 
-            margin: 0 auto 10px auto; 
-            animation: float 3s ease-in-out infinite;
+        .vaca-img {
+            width: min(180px, 55vw);
+            display: block;
+            margin: 0 auto 4px;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        h1 { 
-            font-style: italic; 
-            font-size: 1.8rem; 
-            margin: 10px 0; 
-            color: #1a1a1a;
-            text-align: center;
-            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
-        }
-
-        .preg-tag { 
-            background-color: #5da2d5; 
-            color: white; 
-            padding: 8px 25px; 
-            border-radius: 25px; 
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+        .preg-tag {
+            background-color: var(--blue);
+            color: white;
+            border: 7px solid var(--ink);
+            padding: 8px 25px;
+            font-size: 1.05rem;
+            margin-bottom: 14px;
             display: inline-block;
-        }
-
-        .card { 
-            background: white;
-            width: 100%; 
-            max-width: 350px; 
-            border-radius: 20px; 
-            padding: 30px 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
-            text-align: center;
-        }
-
-        .tipo-pregunta { 
-            background-color: #d65a6d; 
-            color: white; 
-            padding: 5px 15px; 
-            border-radius: 15px; 
-            font-size: 0.95rem;
-            display: inline-block;
-            margin-bottom: 15px;
             font-weight: 700;
-            letter-spacing: 0.5px;
         }
 
-        #texto-pregunta { 
-            font-size: 1.2rem; 
-            color: #333; 
-            margin: 20px 0;
-            line-height: 1.4;
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 370px;
+            border: 7px solid var(--ink);
+            border-radius: 0;
+            padding: 20px 18px 22px;
+            text-align: center;
         }
 
-        .btn-revelar { 
-            background-color: #d65a6d; 
-            color: white; 
-            border: none; 
-            padding: 15px; 
-            border-radius: 12px; 
-            font-size: 1.1rem; 
-            width: 100%; 
-            cursor: pointer; 
-            font-weight: bold;
+        .tipo-pregunta {
+            background-color: var(--yellow);
+            color: var(--ink);
+            border: 7px solid var(--ink);
+            padding: 7px 14px;
+            font-size: 0.94rem;
+            display: inline-block;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        #texto-pregunta {
+            font-size: 1.14rem;
+            color: var(--ink);
+            margin: 14px 0 20px;
+            line-height: 1.35;
+        }
+
+        .btn-revelar, .btn-siguiente, .btn-volver, .categoria-btn {
+            color: var(--ink);
+            border: 7px solid var(--ink);
+            border-radius: 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            transition: transform 0.15s, filter 0.15s;
+        }
+
+        .btn-revelar {
+            background-color: var(--blue);
+            color: white;
+            padding: 12px 10px;
+            font-size: 1.05rem;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: transform 0.2s;
         }
 
-        .btn-revelar:active { transform: scale(0.98); }
-
-        #respuesta { 
-            margin-top: 15px; 
-            font-weight: bold; 
-            font-size: 1.2rem; 
-            display: none; 
+        .btn-revelar:active, .btn-siguiente:active, .btn-volver:active, .categoria-btn:active {
+            transform: translateY(2px);
         }
 
-        #respuesta.verdadero {
-            color: #2ecc71;
+        #respuesta {
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 1.08rem;
+            line-height: 1.35;
+            display: none;
         }
 
-        #respuesta.falso {
-            color: #e74c3c;
+        #respuesta-img {
+            width: min(175px, 65vw);
+            display: none;
+            margin: 6px auto 0;
         }
 
-        .btn-siguiente { 
-            background-color: #5da2d5; 
-            color: white; 
-            border: none; 
-            padding: 12px; 
-            border-radius: 10px; 
-            margin-top: 15px; 
-            width: 100%; 
-            cursor: pointer;
+        #respuesta.verdadero { color: #428d2c; }
+        #respuesta.falso { color: #c33955; }
+
+        .btn-siguiente {
+            background-color: var(--green);
+            color: white;
+            padding: 12px;
+            margin-top: 15px;
+            width: 100%;
             display: none;
         }
 
@@ -144,14 +141,14 @@
 
         #pantalla-inicial {
             width: 100%;
-            max-width: 420px;
+            max-width: 370px;
             text-align: center;
-            margin-top: 25px;
+            margin-top: 8px;
         }
 
         #pantalla-inicial .tipo-pregunta {
-            background-color: #d65a6d;
-            color: white;
+            background-color: var(--yellow);
+            color: var(--ink);
             display: inline-block;
             margin-bottom: 15px;
             font-size: 1.2rem;
@@ -160,57 +157,46 @@
 
         #intro-texto {
             font-size: 1rem;
-            color: #5f4b3d;
+            color: var(--ink);
             margin: 0 0 18px;
         }
 
         .categoria-btn {
-            background: linear-gradient(135deg, #6c5ce7, #8e7dff);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            padding: 15px 18px;
+            background: var(--yellow);
+            padding: 11px 14px;
             font-size: 1.02rem;
             width: 100%;
-            max-width: 320px;
-            cursor: pointer;
+            max-width: 300px;
             margin: 10px auto;
-            transition: transform 0.2s, box-shadow 0.2s;
             display: block;
-            box-shadow: 0 10px 24px rgba(108, 92, 231, 0.25);
-            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
-            font-weight: 600;
-            letter-spacing: 0.2px;
         }
 
-        .categoria-btn:hover,
-        .categoria-btn:focus-visible {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 28px rgba(108, 92, 231, 0.25);
+        .categoria-btn:hover, .btn-revelar:hover, .btn-siguiente:hover, .btn-volver:hover,
+        .categoria-btn:focus-visible, .btn-revelar:focus-visible, .btn-siguiente:focus-visible, .btn-volver:focus-visible {
+            filter: brightness(1.08);
             outline: none;
         }
 
         .btn-volver {
-            background-color: #ff9f43;
+            background-color: var(--blue);
             color: white;
-            border: none;
-            border-radius: 12px;
             padding: 10px 14px;
-            cursor: pointer;
             margin-top: 12px;
-            font-family: 'Fredoka', 'Comic Sans MS', 'Arial', sans-serif;
-            font-weight: 600;
             width: 100%;
+        }
+
+        @media (max-width: 420px) {
+            body { padding-top: 14px; }
+            .card { padding-left: 12px; padding-right: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <img src="VACAN_2.png" alt="La Vaca" class="vaca-img" onerror="this.style.display='none'"> 
-
-    <h1>¿QUIÉN ES EL MÁS VACÁN?</h1>
+    <img src="PNG/logo_juego_vacan.png" alt="¿Quién es el más vacán?" class="logo-img">
 
     <div id="pantalla-inicial" class="card">
+        <img src="PNG/el_mas_vacan_portada.png" alt="La vaca vacán" class="vaca-img">
         <div class="tipo-pregunta">Elige tu categoría</div>
         <button type="button" class="categoria-btn" data-categoria="historia" onclick="seleccionarCategoria('historia')">📜 Curiosidades de la historia</button>
         <button type="button" class="categoria-btn" data-categoria="ciencia" onclick="seleccionarCategoria('ciencia')">🔬 Ciencia y tecnología</button>
@@ -227,6 +213,7 @@
             🔍 REVELAR RESPUESTA
         </button>
         
+        <img id="respuesta-img" alt="Resultado de la respuesta">
         <div id="respuesta"></div>
         
         <button id="btn-siguiente" class="btn-siguiente" onclick="siguiente()">
@@ -418,6 +405,7 @@
         document.getElementById('texto-pregunta').innerText = mazo[actual].q;
         document.getElementById('contador').innerText = "PREGUNTA #" + num;
         document.getElementById('respuesta').style.display = 'none';
+        document.getElementById('respuesta-img').style.display = 'none';
         document.getElementById('respuesta').className = '';
         document.getElementById('btn-siguiente').style.display = 'none';
         document.getElementById('btn-revelar').style.display = 'flex';
@@ -426,9 +414,14 @@
 
     function revelar() {
         const respDiv = document.getElementById('respuesta');
+        const respuestaImg = document.getElementById('respuesta-img');
         respDiv.innerText = mazo[actual].a;
         respDiv.className = mazo[actual].tipo;
         respDiv.style.display = 'block';
+        respuestaImg.src = mazo[actual].tipo === 'verdadero'
+            ? 'PNG/verdadero_vacan.png'
+            : 'PNG/falso_vacan.png';
+        respuestaImg.style.display = 'block';
         document.getElementById('btn-revelar').style.display = 'none';
         document.getElementById('btn-siguiente').style.display = 'block';
     }
@@ -445,6 +438,7 @@
         document.getElementById('preguntas-card').classList.add('hidden');
         document.getElementById('btn-volver-categorias').classList.add('hidden');
         document.getElementById('respuesta').style.display = 'none';
+        document.getElementById('respuesta-img').style.display = 'none';
         document.getElementById('respuesta').className = '';
         document.getElementById('btn-siguiente').style.display = 'none';
         document.getElementById('btn-revelar').style.display = 'flex';
