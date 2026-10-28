@@ -1,3 +1,14 @@
+## Versión actual (index.html)
+
+La página principal ahora es la app completa de **¿Quién es el más vacán?**:
+
+- **App de preguntas para el juego de mesa:** cada jugador escribe su nombre junto al color de su vaca (hasta 8) y la app lleva los puntos con cubos en una pista del 1 al 10. Reemplaza a los perritos de ropa.
+- **App digital para jugar contra robots:** tú contra 1 a 7 vacas de la computadora, con las cartas de respuesta y las 8 cartas de acción.
+- Usa el banco de preguntas de las tres categorías (40 por categoría).
+- Las imágenes de cartas y personajes están en `assets/`. La versión anterior de la página quedó en `preguntas-version-anterior.html`.
+
+---
+
 "Quien es el más Vacán? "(Who is the G.O.A.T) 🐮✨
 This is a fun, fast-paced "True or False" trivia game designed to challenge your general knowledge while keeping you entertained. It's built as a lightweight, interactive web application.
 
