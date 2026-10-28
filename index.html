@@ -155,6 +155,8 @@ h2 { font-family: var(--f-display); font-weight: 400; margin: 0; letter-spacing:
 .log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: .86rem; max-height: 300px; overflow-y: auto; }
 .log li { padding: 4px 8px; background: var(--crema); border-left: 4px solid var(--tinta); }
 .log li:first-child { background: var(--amarillo); }
+.caja-log { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.caja-log .log { width: 100%; max-height: 220px; }
 
 /* Carta jugada que aparece en grande */
 .jugada { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(18,18,18,.55); z-index: 20; padding: 16px; }
@@ -215,7 +217,8 @@ dialog h3 { font-family: var(--f-display); font-weight: 400; margin: 12px 0 4px;
   #control { order: 2; padding: 10px; }
   .caja-mano { order: 3; padding: 10px; }
   .jugadores { order: 4; }
-  .log { order: 5; max-height: 92px; }
+  .caja-log { order: 5; padding: 10px; }
+  .caja-log .log { max-height: 130px; }
   .casilla { min-height: 44px; }
   .casilla .num { font-size: 1.05rem; }
   .cubo { width: 11px; height: 11px; border-width: 1.5px; }
@@ -302,6 +305,7 @@ dialog h3 { font-family: var(--f-display); font-weight: 400; margin: 12px 0 4px;
       <div class="panel">
         <div class="jugadores" id="jugadores"></div>
         <div class="caja panel" id="control"></div>
+        <div class="caja caja-log"><span class="etiqueta">Lo que ha pasado</span><ul class="log" id="log" aria-live="polite"></ul></div>
       </div>
     </div>
   </section>
@@ -655,7 +659,7 @@ dialog h3 { font-family: var(--f-display); font-weight: 400; margin: 12px 0 4px;
     if (!silencioso) log(j.bot ? `${j.nombre} roba una carta de acción.` : `Robas una carta de acción: ${ACCIONES[c].nombre}.`);
   }
 
-  // Sin historial en pantalla: lo que pasa se ve en la carta jugada y en el panel de control.
+  // Historial de jugadas, lo más nuevo arriba.
   function log(t) {
     if (!$("#log")) return;
     const li = document.createElement("li");
