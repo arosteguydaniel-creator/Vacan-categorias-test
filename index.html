@@ -437,7 +437,7 @@ dialog h3 { font-family: var(--f-display); font-weight: 400; margin: 12px 0 4px;
   const imgAcc = (id) => `assets/${IMG_ACC[id]}.webp`;
   const imgResp = (valor, color) => `assets/${valor ? "v" : "f"}-${color}.webp`;
 
-  // [afirmación, es verdadera, dato que se muestra al revelar]. Banco de preguntas de Daniel (40 por categoría).
+  // [afirmación, es verdadera, dato que se muestra al revelar]. Banco de preguntas de Daniel (40 por categoría). "finanzas" (+14) sale del libro Yo y mis finanzas (Mineduc y CMF) y no entra en la mezcla.
   const CATEGORIAS = {
     historia: { nombre: "Curiosidades de la historia", preguntas: [
       ["El chocolate era usado como moneda por los aztecas.", true, "El cacao valía oro."],
@@ -565,12 +565,54 @@ dialog h3 { font-family: var(--f-display); font-weight: 400; margin: 12px 0 4px;
       ["Franz Kafka pidió que quemaran todas sus obras tras su muerte.", true, "Su amigo Max Brod desobedeció y las publicó."],
       ["Diego Velázquez trabajó como pintor de la corte del rey de España.", true, "Sirvió a Felipe IV."],
     ] },
+    finanzas: { nombre: "Educación financiera (+14)", soloMayores: true, preguntas: [
+      ["Tu ingreso es todo el dinero que recibes, aunque sea una mesada o un regalo.", true, "El libro dice: anota cada peso que recibas, eso es tu ingreso."],
+      ["Si a tus ingresos les restas tus gastos, obtienes tu saldo.", true, "Ingresos menos gastos = saldo (sobrante o faltante)."],
+      ["Un presupuesto sirve solo para las empresas, no para las personas.", false, "Las personas y las familias también hacen su presupuesto mensual."],
+      ["El dinero es un recurso ilimitado si lo administras bien.", false, "'El dinero es un recurso limitado', dice el libro Yo y mis finanzas."],
+      ["Los 'gastos hormiga' son gastos pequeños e impulsivos que, sumados, se vuelven grandes.", true, "Un snack por aquí, una bebida por allá... y se va la plata."],
+      ["Los 'gastos hormiga' son los gastos grandes que se hacen una vez al año.", false, "Son gastitos chicos y frecuentes que se acumulan."],
+      ["Según la RAE, consumir es usar bienes para satisfacer necesidades o deseos.", true, "Necesidades (lo que precisas) o deseos (lo que te gustaría)."],
+      ["Una buena forma de ahorrar es anotar tus gastos y ver cuáles puedes recortar.", true, "Anotar, ordenar por importancia, marcar qué recortar y calcular el ahorro."],
+      ["Las remesas son dinero que envían familiares que viven en otro lugar o país.", true, "Son uno de los tipos de ingreso de una familia."],
+      ["El arriendo o dividendo de la casa es parte del gasto en vivienda.", true, "Vivienda y servicios suele ser el gasto más grande del presupuesto."],
+      ["Ahorrar es no usar algo hoy para usarlo en el futuro.", true, "Así lo define el libro Yo y mis finanzas."],
+      ["El crédito es usar hoy lo que espero tener en el futuro.", true, "Por eso hay que estar seguro de que podrás pagarlo."],
+      ["Ahorro y crédito son exactamente lo mismo.", false, "Son opuestos: ahorrar es guardar para después; el crédito es gastar hoy plata futura."],
+      ["Si puedes esperar para comprar algo, ahorrar es siempre la mejor opción.", true, "Así no pagas intereses."],
+      ["Endeudarse para pagar regalos, lujos o gustos es una buena idea.", false, "El libro dice que no es conveniente."],
+      ["Pedir un crédito puede tener sentido para comprar una vivienda.", true, "Es un bien muy caro de pagar al contado: por eso existen los créditos hipotecarios."],
+      ["El interés suele ser el costo más importante de un crédito.", true, "Además puede haber comisiones y seguros."],
+      ["La cuota mensual de un crédito puede incluir capital, intereses, comisiones y seguros.", true, "Por eso la cuota es más que lo que te prestaron dividido en meses."],
+      ["La amortización es el pago de los intereses de un crédito.", false, "Es el pago del capital, sin intereses."],
+      ["El costo real de un crédito es la suma de todas las cuotas que pagas.", true, "Compara eso con el precio al contado."],
+      ["Un celular en 24 cuotas siempre cuesta lo mismo que pagarlo al contado.", false, "Las cuotas suelen sumar más por intereses y comisiones."],
+      ["En Chile, CAE significa 'Carga Anual Equivalente'.", true, "Sirve para comparar el costo total de distintos créditos."],
+      ["La 'mora' es atrasarse en pagar una deuda que ya venció.", true, "Atrasarse trae intereses extra y problemas para pedir otros créditos."],
+      ["El crédito hipotecario sirve para comprar una casa o departamento.", true, "Es un crédito de largo plazo con la vivienda como garantía."],
+      ["Un crédito productivo es para comprar algo que genera ingresos, como herramientas para un negocio.", true, "Pedir crédito para algo que genera plata es uno de los casos razonables."],
+      ["En un depósito a plazo puedes sacar tu dinero cuando quieras sin perder nada.", false, "El dinero queda guardado hasta que se cumple el plazo."],
+      ["En un depósito a plazo, mientras más largo el plazo, normalmente mayor es la tasa de interés.", true, "Ganas más por esperar más."],
+      ["Una cuenta corriente o vista paga intereses muy altos por tu dinero.", false, "Paga muy poco o nada, pero puedes sacar tu plata en cualquier momento."],
+      ["Ahorrar para un imprevisto se llama ahorro preventivo.", true, "Los otros tipos: ahorrar para algo específico y para crear patrimonio."],
+      ["Ahorrar para la jubilación es un ahorro de largo plazo.", true, "Es plata para cuando dejes de trabajar."],
+      ["Según la CMF (2023), más de la mitad de las personas en Chile dijo haber ahorrado el último año.", false, "Fue el 39%."],
+      ["Según la CMF (2023), la meta de ahorro más común en Chile es comprar una vivienda o terreno.", true, "39% de quienes ahorran; viajar va segundo con 17%."],
+      ["El libro Yo y mis finanzas resume: 'Los chilenos ahorran poco, pero se endeudan mucho'.", true, "Por eso la educación financiera importa desde joven."],
+      ["En Chile, un joven de 15 años puede trabajar en cualquier empleo sin permiso.", false, "Entre 15 y 18 años solo trabajos ligeros y con autorización de un adulto."],
+      ["En Chile está prohibido contratar a menores de 15 años.", true, "Lo establece el Código del Trabajo."],
+      ["Un menor de 18 años en Chile puede trabajar como máximo 8 horas al día.", true, "Y si está estudiando, máximo 30 horas a la semana."],
+      ["Que te paguen 'en especie' significa recibir bienes en vez de dinero.", true, "Por ejemplo, que te paguen con comida o productos."],
+      ["En la publicidad, el precio de la cuota es lo único que importa para decidir.", false, "Hay que mirar el total a pagar, el plazo y el CAE."],
+      ["Los bancos y casas comerciales pueden cobrar comisiones por sus créditos.", true, "Las cooperativas y cajas de ahorro generalmente no lo hacen."],
+      ["Comparar precios antes de comprar es parte del consumo consciente.", true, "Un consumidor consciente piensa antes de gastar."],
+    ] },
   };
 
   // Mazos de preguntas por categoría (sin repetir hasta agotar)
   const colas = {};
   function sacarPregunta(cat) {
-    if (cat === "mezcla") cat = Object.keys(CATEGORIAS)[azar(3)];
+    if (cat === "mezcla") { const cats = Object.keys(CATEGORIAS).filter((k) => !CATEGORIAS[k].soloMayores); cat = cats[azar(cats.length)]; }
     if (!colas[cat] || !colas[cat].length) colas[cat] = barajar(CATEGORIAS[cat].preguntas.map((_, i) => i));
     const p = CATEGORIAS[cat].preguntas[colas[cat].pop()];
     return { cat, texto: p[0], v: p[1], dato: p[2] };
