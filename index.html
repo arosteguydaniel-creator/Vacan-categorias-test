@@ -642,6 +642,8 @@ dialog h3 { font-family: var(--f-display); font-weight: 400; margin: 12px 0 4px;
   document.querySelectorAll("[data-reglas]").forEach((b) => (b.onclick = () => $("#reglas").showModal()));
   document.querySelectorAll("[data-volver]").forEach((b) => (b.onclick = () => ver("v-inicio")));
   document.querySelectorAll("[data-salir]").forEach((b) => (b.onclick = () => { partida++; $("#dlg-fin").open && $("#dlg-fin").close(); $("#jugada").hidden = true; ver("v-inicio"); }));
+  // Enlace directo al modo contra robots (QR de tarjetas): quieneselmasvacan.pages.dev/?robots
+  if (/robots/i.test(location.search + location.hash)) ver("v-config");
 
   // ---------- Configuración ----------
 
